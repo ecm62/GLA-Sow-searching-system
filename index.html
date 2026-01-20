@@ -8,20 +8,15 @@
         :root { --main-color: #2c3e50; --accent-color: #27ae60; --bg-color: #f4f6f8; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg-color); padding: 0; margin: 0; display: flex; flex-direction: column; align-items: center; height: 100vh; }
         
+        /* 版面容器 */
         .container { 
-            width: 95%; 
-            max-width: 1600px; 
-            background: white; 
-            display: flex; 
-            flex-direction: column; 
-            height: 95vh;
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
+            width: 95%; max-width: 1600px; background: white; 
+            display: flex; flex-direction: column; height: 95vh;
+            margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px; overflow: hidden;
         }
         
-        /* Header Area */
+        /* 標題與搜尋區 */
         .header-section { padding: 20px; border-bottom: 2px solid #ecf0f1; background: #fff; }
         h1 { margin: 0 0 15px 0; font-size: 20px; color: var(--main-color); border-left: 5px solid var(--accent-color); padding-left: 10px; }
         
@@ -29,43 +24,26 @@
         input { padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; text-transform: uppercase; width: 250px; }
         button { padding: 10px 25px; background: var(--accent-color); color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 4px; font-weight: bold; }
         button:hover { background: #219150; }
-        
         #status { margin-left: 20px; font-weight: 600; color: #555; font-size: 14px; }
         
-        /* Table Area */
-        .table-wrapper { 
-            flex: 1; 
-            overflow: auto;
-            padding: 0;
-            position: relative;
-        }
-
+        /* 表格區 */
+        .table-wrapper { flex: 1; overflow: auto; padding: 0; position: relative; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
         
-        /* Sticky Header */
+        /* 凍結標題 */
         thead { position: sticky; top: 0; z-index: 10; }
-        th { 
-            background-color: var(--main-color); 
-            color: white; 
-            padding: 10px 8px; 
-            text-align: left; 
-            border-right: 1px solid rgba(255,255,255,0.2);
-            font-weight: 600;
-        }
-        
+        th { background-color: var(--main-color); color: white; padding: 10px 8px; text-align: left; border-right: 1px solid rgba(255,255,255,0.2); font-weight: 600; }
         td { padding: 8px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; color: #333; }
         
-        /* Zebra Striping */
         tbody tr:nth-child(even) { background-color: #f8f9fa; }
         tbody tr:hover { background-color: #e8f8f5; cursor: default; }
 
-        /* Column Specifics */
+        /* 欄位特殊樣式 */
         .col-id { font-weight: bold; color: #2980b9; }
-        .col-week { font-weight: bold; color: #e74c3c; background-color: #fdedec; text-align: center; }
+        .col-week { font-weight: bold; color: #e74c3c; background-color: #fdedec; text-align: center; border-left: 1px solid #fadbd8; border-right: 1px solid #fadbd8; }
         .col-wt { font-weight: bold; color: #8e44ad; background-color: #f4ecf7; text-align: center; }
         .col-range { background-color: #fdf2e9; color: #d35400; font-size: 11px; }
         
-        /* Footer Info */
         .footer-info { padding: 10px 20px; background: #ecf0f1; font-size: 12px; color: #7f8c8d; text-align: right; }
     </style>
 </head>
@@ -85,36 +63,18 @@
         <table id="resultTable" style="display:none;">
             <thead>
                 <tr>
-                    <th>Sow ID</th>
-                    <th>Boar ID</th>
-                    <th>G.Sire</th>
-                    <th>G.Dam</th>
-                    <th>Mate Week<br>Minggu</th>
-                    <th>Mating Date<br>Tarikh Kahwin</th>
-                    <th>Total Wt.<br>(kg)</th>
-                    <th>Farrow Date<br>Tarikh Beranak</th>
-                    <th>Parity</th>
-                    <th>Still<br>born</th>
-                    <th>Mummi<br>fied</th>
-                    <th>Deform</th>
-                    <th>Total<br>Born</th>
-                    <th>Live<br>Hidup</th>
-                    <th class="col-range">Breeder Start</th>
-                    <th class="col-range">Breeder End</th>
-                    <th class="col-range">Porker Start</th>
-                    <th class="col-range">Porker End</th>
-                </tr>
+                    <th>Sow ID</th>             <th>Boar ID</th>            <th>G.Sire</th>             <th>G.Dam</th>              <th>Mate Week<br>Minggu</th><th>Mating Date<br>Tarikh Kahwin</th> <th>Total Wt.<br>(kg)</th>  <th>Farrow Date<br>Tarikh Beranak</th> <th>Parity</th>             <th>Still<br>born</th>      <th>Mummi<br>fied</th>      <th>Deform</th>             <th>Total<br>Born</th>      <th>Live<br>Hidup</th>      <th class="col-range">Breeder Start</th> <th class="col-range">Breeder End</th>   <th class="col-range">Porker Start</th>  <th class="col-range">Porker End</th>    </tr>
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
     </div>
     
-    <div class="footer-info">System V9.0 | Mate Week Updated</div>
+    <div class="footer-info">System V10.0 | Strict Column Alignment</div>
 </div>
 
 <script>
     // ============================================
-    // INSERT YOUR WEB APP URL BELOW
+    // ★★★ 請將您的 Web App 網址貼在下方引號中 ★★★
     // ============================================
     const API_URL = "https://script.google.com/macros/s/AKfycbyguTs5ih8yLUB8NjRdJS4GB9E3d3E3A2hbDK13u-pv9gl49GAfrA0uNBWqagRRmvBz/exec"; 
     // ============================================
@@ -171,10 +131,10 @@
                 const td = document.createElement('td');
                 td.textContent = cell;
                 
-                // === V9.0 Style Indices ===
+                // === 樣式對齊 (嚴格對應 Index) ===
                 if(index === 0) td.className = 'col-id'; // Sow ID
                 if(index === 4) td.className = 'col-week'; // Mate Week
-                if(index === 6) td.className = 'col-wt';   // Total Wt
+                if(index === 6) td.className = 'col-wt';   // Total Wt (Index 6)
                 if(index >= 14) td.className = 'col-range'; // Ranges
                 
                 tr.appendChild(td);

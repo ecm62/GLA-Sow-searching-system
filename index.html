@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.P.T.S - Pig Genealogy Tracker</title>
+    <style>
+        :root { --main-color: #2c3e50; --accent-color: #27ae60; --highlight-bg: #e8f8f5; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 98%; max-width: 1500px; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        
+        /* Header */
+        h1 { color: var(--main-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 25px; font-size: 24px; letter-spacing: 0.5px; }
+        
+        /* Search Box */
+        .search-area { background: #ecf0f1; padding: 20px; border-radius: 6px; display: flex; gap: 15px; margin-bottom: 20px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
+        input { flex: 1; padding: 12px 15px; font-size: 18px; border: 2px solid #bdc3c7; border-radius: 4px; text-transform: uppercase; font-weight: bold; color: #2c3e50; }
+        input:focus { border-color: var(--accent-color); outline: none; }
+        button { padding: 12px 40px; background: var(--accent-color); color: white; border: none; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.2s; text-transform: uppercase; }
+        button:hover { background: #219150; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        button:disabled { background: #95a5a6; cursor: not-allowed; }
+
+        /* Status Messages */
+        #status { margin: 15px 0; font-weight: 600; min-height: 25px; font-size: 16px; }
+        .loading { color: #34495e; }
+        .success { color: #27ae60; }
+        .error { color: #c0392b; }
+
+        /* Table Styling */
+        .table-responsive { overflow-x: auto; border-radius: 6px; border: 1px solid #ddd; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
+        
+        thead { background-color: var(--main-color); color: white; }
+        th { padding: 15px 10px; text-align: left; border-right: 1px solid rgba(255,255,255,0.1); font-weight: 600; }
+        td { padding: 12px 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; color: #333; }
+        
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: var(--highlight-bg); }
+
+        /* Custom Column Colors */
+        .col-breeder { background-color: #d35400; color: white; }
+        .col-porker { background-color: #e67e22; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>S.P.T.S - Genealogy Query System (V5.0)</h1>
+    
+    <div class="search-area">
+        <input type="text" id="tagInput" placeholder="Enter Ear Notch (e.g., LY10020 or 10020)..." onkeypress="if(event.key==='Enter') doSearch()">
+        <button id="searchBtn" onclick="doSearch()">SEARCH</button>
+    </div>
+
+    <div id="status"></div>
+
+    <div class="table-responsive">
+        <table id="resultTable" style="display:none;">
+            <thead>
+                <tr>
+                    <th>Sow ID</th>
+                    <th>Boar ID</th>
+                    <th>Grand Sire</th>
+                    <th>Grand Dam</th>
+                    <th>Mating Date<br><span style="font-size:11px; opacity:0.8">Tarikh Kahwin</span></th>
+                    <th>Farrow Date<br><span style="font-size:11px; opacity:0.8">Tarikh Beranak</span></th>
+                    <th>Parity</th>
+                    <th>Stillborn</th>
+                    <th>Mummified</th>
+                    <th>Deformity<br><span style="font-size:11px; opacity:0.8">Cacat</span></th>
+                    <th>Total Born</th>
+                    <th>Born Live<br><span style="font-size:11px; opacity:0.8">Hidup</span></th>
+                    <th>Total Wt.</th>
+                    <th class="col-breeder">Breeder Start<br><span style="font-size:11px">Awal</span></th>
+                    <th class="col-breeder">Breeder End<br><span style="font-size:11px">Akhir</span></th>
+                    <th class="col-porker">Porker Start<br><span style="font-size:11px">Awal</span></th>
+                    <th class="col-porker">Porker End<br><span style="font-size:11px">Akhir</span></th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // ============================================
+    // INSERT YOUR WEB APP URL BELOW
+    // ============================================
+    const API_URL = "https://script.google.com/macros/s/AKfycbyguTs5ih8yLUB8NjRdJS4GB9E3d3E3A2hbDK13u-pv9gl49GAfrA0uNBWqagRRmvBz/exec"; 
+    // ============================================
+
+    function doSearch() {
+        const input = document.getElementById('tagInput').value.trim();
+        const statusDiv = document.getElementById('status');
+        const btn = document.getElementById('searchBtn');
+        const table = document.getElementById('resultTable');
+        const tbody = document.getElementById('tableBody');
+
+        if(!input) { alert("Please enter an Ear Notch ID."); return; }
+        
+        // 1. Init UI
+        btn.disabled = true;
+        btn.textContent = "SEARCHING...";
+        statusDiv.className = 'loading';
+        statusDiv.innerHTML = "Accessing Database... / Mengakses Pangkalan Data...";
+        table.style.display = 'none';
+        tbody.innerHTML = '';
+
+        // 2. Fetch Data
+        fetch(API_URL + "?tag=" + encodeURIComponent(input))
+        .then(res => res.json())
+        .then(json => {
+            btn.disabled = false;
+            btn.textContent = "SEARCH";
+
+            if (json.error) {
+                statusDiv.className = 'error';
+                statusDiv.textContent = "Error: " + json.error;
+            } else if (json.data && json.data.length > 0) {
+                statusDiv.className = 'success';
+                statusDiv.textContent = "Success: Found " + json.data.length + " records / Rekod Ditemui";
+                renderTable(json.data);
+                table.style.display = 'table';
+            } else {
+                statusDiv.className = 'error';
+                statusDiv.textContent = "No records found / Tiada rekod dijumpai";
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            btn.disabled = false;
+            btn.textContent = "SEARCH";
+            statusDiv.className = 'error';
+            statusDiv.textContent = "Connection Failed. Please check internet or URL.";
+        });
+    }
+
+    function renderTable(data) {
+        const tbody = document.getElementById('tableBody');
+        data.forEach(row => {
+            const tr = document.createElement('tr');
+            row.forEach(cell => {
+                const td = document.createElement('td');
+                td.innerHTML = cell; // Use innerHTML to allow simple formatting if needed
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+    }
+</script>
+
+</body>
+</html>

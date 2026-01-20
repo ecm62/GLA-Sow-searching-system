@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S - Genealogy V13</title>
+    <title>S.P.T.S - Genealogy V15</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f0f2f5; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 1600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .container { width: 100%; max-width: 1800px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         
         .search-box { display: flex; gap: 10px; margin-bottom: 20px; background: #ecf0f1; padding: 15px; border-radius: 6px; }
         input { padding: 10px; font-size: 16px; width: 200px; text-transform: uppercase; }
@@ -16,12 +16,13 @@
         .ver-tag { font-size: 10px; color: #aaa; margin-top: 5px; text-align: right; }
 
         .table-container { overflow-x: auto; border: 1px solid #ddd; }
-        table { width: 100%; border-collapse: collapse; min-width: 1200px; }
+        table { width: 100%; border-collapse: collapse; min-width: 1400px; }
         
-        th { background-color: #2c3e50; color: white; padding: 12px 8px; text-align: left; border-right: 1px solid #555; white-space: nowrap; }
-        td { padding: 10px 8px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; white-space: nowrap; }
+        th { background-color: #2c3e50; color: white; padding: 12px 6px; text-align: left; border-right: 1px solid #555; white-space: nowrap; font-size: 13px; }
+        td { padding: 10px 6px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; white-space: nowrap; font-size: 13px; }
         
         /* 樣式高亮 */
+        .hl-id   { font-weight: bold; color: #2980b9; }
         .hl-week { background-color: #fdedec; color: #c0392b; font-weight: bold; text-align: center; }
         .hl-wt   { background-color: #f4ecf7; color: #8e44ad; font-weight: bold; text-align: center; }
         .hl-range{ background-color: #fdf2e9; color: #d35400; font-size: 11px; }
@@ -44,28 +45,7 @@
         <table id="resultTable" style="display:none;">
             <thead>
                 <tr>
-                    <th>Sow ID</th>
-                    <th>Boar ID</th>
-                    <th>G.Sire</th>
-                    <th>G.Dam</th>
-                    
-                    <th style="background:#c0392b">Mate Week<br>Minggu</th>
-                    <th>Mating Date<br>Tarikh Kahwin</th>
-                    <th style="background:#8e44ad">Total Wt.<br>(kg)</th>
-                    <th>Farrow Date<br>Tarikh Beranak</th>
-                    
-                    <th>Parity</th>
-                    <th>Still<br>born</th>
-                    <th>Mummi<br>fied</th>
-                    <th>Deform</th>
-                    <th>Total<br>Born</th>
-                    <th>Live<br>Hidup</th>
-                    
-                    <th class="hl-range">Breeder Start</th>
-                    <th class="hl-range">Breeder End</th>
-                    <th class="hl-range">Porker Start</th>
-                    <th class="hl-range">Porker End</th>
-                </tr>
+                    <th>Sow ID</th> <th>Boar ID</th> <th>G.Dam</th> <th>G.Sire</th> <th style="background:#c0392b">Mate Week</th> <th>Mating Date</th> <th style="background:#8e44ad">Total Wt.<br>(kg)</th> <th>Farrow Date</th> <th>Parity</th> <th>Still<br>born</th> <th>Mummi<br>fied</th> <th>Deform</th> <th>Total<br>Born</th> <th>Born<br>Live</th> <th class="hl-range">Breeder Start</th> <th class="hl-range">Breeder End</th>   <th class="hl-range">Porker Start</th>  <th class="hl-range">Porker End</th>    </tr>
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
@@ -134,10 +114,10 @@
                 const td = document.createElement('td');
                 td.textContent = cell;
                 
-                // 樣式對應 Index (V13.0)
-                if(index === 0) td.style.fontWeight = "bold"; // Sow
-                if(index === 4) td.className = "hl-week";     // Mate Week (4)
-                if(index === 6) td.className = "hl-wt";       // Total Wt (6)
+                // 樣式對應 Index (V15.0)
+                if(index === 0) td.className = "hl-id";       // Sow ID is back at 0
+                if(index === 4) td.className = "hl-week";     // Mate Week
+                if(index === 6) td.className = "hl-wt";       // Total Wt
                 if(index >= 14) td.className = "hl-range";    // Ranges
                 
                 tr.appendChild(td);

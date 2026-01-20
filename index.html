@@ -3,83 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S - Pig Genealogy Tracker</title>
+    <title>S.P.T.S - Full History Tracker</title>
     <style>
-        :root { --main-color: #2c3e50; --accent-color: #27ae60; --highlight-bg: #e8f8f5; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 98%; max-width: 1500px; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        :root { --main-color: #2c3e50; --accent-color: #27ae60; --bg-color: #f4f6f8; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg-color); padding: 0; margin: 0; display: flex; flex-direction: column; align-items: center; height: 100vh; }
         
-        /* Header */
-        h1 { color: var(--main-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 25px; font-size: 24px; letter-spacing: 0.5px; }
+        .container { 
+            width: 95%; 
+            max-width: 1600px; 
+            background: white; 
+            display: flex; 
+            flex-direction: column; 
+            height: 95vh;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
         
-        /* Search Box */
-        .search-area { background: #ecf0f1; padding: 20px; border-radius: 6px; display: flex; gap: 15px; margin-bottom: 20px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
-        input { flex: 1; padding: 12px 15px; font-size: 18px; border: 2px solid #bdc3c7; border-radius: 4px; text-transform: uppercase; font-weight: bold; color: #2c3e50; }
-        input:focus { border-color: var(--accent-color); outline: none; }
-        button { padding: 12px 40px; background: var(--accent-color); color: white; border: none; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.2s; text-transform: uppercase; }
-        button:hover { background: #219150; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        button:disabled { background: #95a5a6; cursor: not-allowed; }
+        /* Header Area */
+        .header-section { padding: 20px; border-bottom: 2px solid #ecf0f1; background: #fff; }
+        h1 { margin: 0 0 15px 0; font-size: 20px; color: var(--main-color); border-left: 5px solid var(--accent-color); padding-left: 10px; }
+        
+        .search-area { display: flex; gap: 10px; align-items: center; }
+        input { padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; text-transform: uppercase; width: 250px; }
+        button { padding: 10px 25px; background: var(--accent-color); color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+        button:hover { background: #219150; }
+        
+        #status { margin-left: 20px; font-weight: 600; color: #555; font-size: 14px; }
+        
+        /* Table Area */
+        .table-wrapper { 
+            flex: 1; 
+            overflow: auto;
+            padding: 0;
+            position: relative;
+        }
 
-        /* Status Messages */
-        #status { margin: 15px 0; font-weight: 600; min-height: 25px; font-size: 16px; }
-        .loading { color: #34495e; }
-        .success { color: #27ae60; }
-        .error { color: #c0392b; }
-
-        /* Table Styling */
-        .table-responsive { overflow-x: auto; border-radius: 6px; border: 1px solid #ddd; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
         
-        thead { background-color: var(--main-color); color: white; }
-        th { padding: 15px 10px; text-align: left; border-right: 1px solid rgba(255,255,255,0.1); font-weight: 600; }
-        td { padding: 12px 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; color: #333; }
+        /* Sticky Header */
+        thead { position: sticky; top: 0; z-index: 10; }
+        th { 
+            background-color: var(--main-color); 
+            color: white; 
+            padding: 10px 8px; 
+            text-align: left; 
+            border-right: 1px solid rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
         
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        tr:hover { background-color: var(--highlight-bg); }
+        td { padding: 8px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; color: #333; }
+        
+        /* Zebra Striping */
+        tbody tr:nth-child(even) { background-color: #f8f9fa; }
+        tbody tr:hover { background-color: #e8f8f5; cursor: default; }
 
-        /* Custom Column Colors */
-        .col-breeder { background-color: #d35400; color: white; }
-        .col-porker { background-color: #e67e22; color: white; }
+        /* Column Specifics */
+        .col-id { font-weight: bold; color: #2980b9; }
+        .col-week { font-weight: bold; color: #e74c3c; background-color: #fdedec; text-align: center; }
+        .col-wt { font-weight: bold; color: #8e44ad; background-color: #f4ecf7; text-align: center; }
+        .col-range { background-color: #fdf2e9; color: #d35400; font-size: 11px; }
+        
+        /* Footer Info */
+        .footer-info { padding: 10px 20px; background: #ecf0f1; font-size: 12px; color: #7f8c8d; text-align: right; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>S.P.T.S - Genealogy Query System (V5.0)</h1>
-    
-    <div class="search-area">
-        <input type="text" id="tagInput" placeholder="Enter Ear Notch (e.g., LY10020 or 10020)..." onkeypress="if(event.key==='Enter') doSearch()">
-        <button id="searchBtn" onclick="doSearch()">SEARCH</button>
+    <div class="header-section">
+        <h1>S.P.T.S - Full History Analysis</h1>
+        <div class="search-area">
+            <input type="text" id="tagInput" placeholder="ID (e.g., LY10020)..." onkeypress="if(event.key==='Enter') doSearch()">
+            <button id="searchBtn" onclick="doSearch()">SEARCH</button>
+            <div id="status">Ready</div>
+        </div>
     </div>
 
-    <div id="status"></div>
-
-    <div class="table-responsive">
+    <div class="table-wrapper">
         <table id="resultTable" style="display:none;">
             <thead>
                 <tr>
                     <th>Sow ID</th>
                     <th>Boar ID</th>
-                    <th>Grand Sire</th>
-                    <th>Grand Dam</th>
-                    <th>Mating Date<br><span style="font-size:11px; opacity:0.8">Tarikh Kahwin</span></th>
-                    <th>Farrow Date<br><span style="font-size:11px; opacity:0.8">Tarikh Beranak</span></th>
+                    <th>G.Sire</th>
+                    <th>G.Dam</th>
+                    <th>Mate Week<br>Minggu</th>
+                    <th>Mating Date<br>Tarikh Kahwin</th>
+                    <th>Total Wt.<br>(kg)</th>
+                    <th>Farrow Date<br>Tarikh Beranak</th>
                     <th>Parity</th>
-                    <th>Stillborn</th>
-                    <th>Mummified</th>
-                    <th>Deformity<br><span style="font-size:11px; opacity:0.8">Cacat</span></th>
-                    <th>Total Born</th>
-                    <th>Born Live<br><span style="font-size:11px; opacity:0.8">Hidup</span></th>
-                    <th>Total Wt.</th>
-                    <th class="col-breeder">Breeder Start<br><span style="font-size:11px">Awal</span></th>
-                    <th class="col-breeder">Breeder End<br><span style="font-size:11px">Akhir</span></th>
-                    <th class="col-porker">Porker Start<br><span style="font-size:11px">Awal</span></th>
-                    <th class="col-porker">Porker End<br><span style="font-size:11px">Akhir</span></th>
+                    <th>Still<br>born</th>
+                    <th>Mummi<br>fied</th>
+                    <th>Deform</th>
+                    <th>Total<br>Born</th>
+                    <th>Live<br>Hidup</th>
+                    <th class="col-range">Breeder Start</th>
+                    <th class="col-range">Breeder End</th>
+                    <th class="col-range">Porker Start</th>
+                    <th class="col-range">Porker End</th>
                 </tr>
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
     </div>
+    
+    <div class="footer-info">System V9.0 | Mate Week Updated</div>
 </div>
 
 <script>
@@ -96,42 +126,39 @@
         const table = document.getElementById('resultTable');
         const tbody = document.getElementById('tableBody');
 
-        if(!input) { alert("Please enter an Ear Notch ID."); return; }
+        if(!input) { alert("Please enter ID."); return; }
         
-        // 1. Init UI
         btn.disabled = true;
-        btn.textContent = "SEARCHING...";
-        statusDiv.className = 'loading';
-        statusDiv.innerHTML = "Accessing Database... / Mengakses Pangkalan Data...";
+        statusDiv.style.color = "#e67e22";
+        statusDiv.textContent = "Tracing History... / Sedang Mengesan Rekod...";
         table.style.display = 'none';
         tbody.innerHTML = '';
 
-        // 2. Fetch Data
         fetch(API_URL + "?tag=" + encodeURIComponent(input))
         .then(res => res.json())
         .then(json => {
             btn.disabled = false;
-            btn.textContent = "SEARCH";
 
             if (json.error) {
-                statusDiv.className = 'error';
+                statusDiv.style.color = "#c0392b";
                 statusDiv.textContent = "Error: " + json.error;
             } else if (json.data && json.data.length > 0) {
-                statusDiv.className = 'success';
-                statusDiv.textContent = "Success: Found " + json.data.length + " records / Rekod Ditemui";
+                statusDiv.style.color = "#27ae60";
+                const targetSow = json.targetSow ? json.targetSow : "Unknown";
+                statusDiv.textContent = `Found Sow: ${targetSow} | History: ${json.data.length} cycles`;
+                
                 renderTable(json.data);
                 table.style.display = 'table';
             } else {
-                statusDiv.className = 'error';
-                statusDiv.textContent = "No records found / Tiada rekod dijumpai";
+                statusDiv.style.color = "#c0392b";
+                statusDiv.textContent = "No records found.";
             }
         })
         .catch(err => {
             console.error(err);
             btn.disabled = false;
-            btn.textContent = "SEARCH";
-            statusDiv.className = 'error';
-            statusDiv.textContent = "Connection Failed. Please check internet or URL.";
+            statusDiv.style.color = "#c0392b";
+            statusDiv.textContent = "Connection Failed.";
         });
     }
 
@@ -139,9 +166,17 @@
         const tbody = document.getElementById('tableBody');
         data.forEach(row => {
             const tr = document.createElement('tr');
-            row.forEach(cell => {
+            
+            row.forEach((cell, index) => {
                 const td = document.createElement('td');
-                td.innerHTML = cell; // Use innerHTML to allow simple formatting if needed
+                td.textContent = cell;
+                
+                // === V9.0 Style Indices ===
+                if(index === 0) td.className = 'col-id'; // Sow ID
+                if(index === 4) td.className = 'col-week'; // Mate Week
+                if(index === 6) td.className = 'col-wt';   // Total Wt
+                if(index >= 14) td.className = 'col-range'; // Ranges
+                
                 tr.appendChild(td);
             });
             tbody.appendChild(tr);
@@ -150,5 +185,4 @@
 </script>
 
 </body>
-
 </html>

@@ -3,78 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S - Full History Tracker</title>
+    <title>S.P.T.S - Genealogy V13</title>
     <style>
-        :root { --main-color: #2c3e50; --accent-color: #27ae60; --bg-color: #f4f6f8; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg-color); padding: 0; margin: 0; display: flex; flex-direction: column; align-items: center; height: 100vh; }
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 1600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         
-        /* 版面容器 */
-        .container { 
-            width: 95%; max-width: 1600px; background: white; 
-            display: flex; flex-direction: column; height: 95vh;
-            margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-radius: 8px; overflow: hidden;
-        }
+        .search-box { display: flex; gap: 10px; margin-bottom: 20px; background: #ecf0f1; padding: 15px; border-radius: 6px; }
+        input { padding: 10px; font-size: 16px; width: 200px; text-transform: uppercase; }
+        button { padding: 10px 20px; background: #27ae60; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; }
         
-        /* 標題與搜尋區 */
-        .header-section { padding: 20px; border-bottom: 2px solid #ecf0f1; background: #fff; }
-        h1 { margin: 0 0 15px 0; font-size: 20px; color: var(--main-color); border-left: 5px solid var(--accent-color); padding-left: 10px; }
-        
-        .search-area { display: flex; gap: 10px; align-items: center; }
-        input { padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; text-transform: uppercase; width: 250px; }
-        button { padding: 10px 25px; background: var(--accent-color); color: white; border: none; font-size: 16px; cursor: pointer; border-radius: 4px; font-weight: bold; }
-        button:hover { background: #219150; }
-        #status { margin-left: 20px; font-weight: 600; color: #555; font-size: 14px; }
-        
-        /* 表格區 */
-        .table-wrapper { flex: 1; overflow: auto; padding: 0; position: relative; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }
-        
-        /* 凍結標題 */
-        thead { position: sticky; top: 0; z-index: 10; }
-        th { background-color: var(--main-color); color: white; padding: 10px 8px; text-align: left; border-right: 1px solid rgba(255,255,255,0.2); font-weight: 600; }
-        td { padding: 8px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; color: #333; }
-        
-        tbody tr:nth-child(even) { background-color: #f8f9fa; }
-        tbody tr:hover { background-color: #e8f8f5; cursor: default; }
+        #status { font-weight: bold; margin-left: 15px; align-self: center; }
+        .ver-tag { font-size: 10px; color: #aaa; margin-top: 5px; text-align: right; }
 
-        /* 欄位特殊樣式 */
-        .col-id { font-weight: bold; color: #2980b9; }
-        .col-week { font-weight: bold; color: #e74c3c; background-color: #fdedec; text-align: center; border-left: 1px solid #fadbd8; border-right: 1px solid #fadbd8; }
-        .col-wt { font-weight: bold; color: #8e44ad; background-color: #f4ecf7; text-align: center; }
-        .col-range { background-color: #fdf2e9; color: #d35400; font-size: 11px; }
+        .table-container { overflow-x: auto; border: 1px solid #ddd; }
+        table { width: 100%; border-collapse: collapse; min-width: 1200px; }
         
-        .footer-info { padding: 10px 20px; background: #ecf0f1; font-size: 12px; color: #7f8c8d; text-align: right; }
+        th { background-color: #2c3e50; color: white; padding: 12px 8px; text-align: left; border-right: 1px solid #555; white-space: nowrap; }
+        td { padding: 10px 8px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; white-space: nowrap; }
+        
+        /* 樣式高亮 */
+        .hl-week { background-color: #fdedec; color: #c0392b; font-weight: bold; text-align: center; }
+        .hl-wt   { background-color: #f4ecf7; color: #8e44ad; font-weight: bold; text-align: center; }
+        .hl-range{ background-color: #fdf2e9; color: #d35400; font-size: 11px; }
+
+        tr:nth-child(even) { background-color: #f9f9f9; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-section">
-        <h1>S.P.T.S - Full History Analysis</h1>
-        <div class="search-area">
-            <input type="text" id="tagInput" placeholder="ID (e.g., LY10020)..." onkeypress="if(event.key==='Enter') doSearch()">
-            <button id="searchBtn" onclick="doSearch()">SEARCH</button>
-            <div id="status">Ready</div>
-        </div>
+    <h2>S.P.T.S - Full History Analysis</h2>
+    
+    <div class="search-box">
+        <input type="text" id="tagInput" placeholder="ID (e.g. LY10020)..." onkeypress="if(event.key==='Enter') doSearch()">
+        <button id="searchBtn" onclick="doSearch()">SEARCH</button>
+        <div id="status">Ready</div>
     </div>
 
-    <div class="table-wrapper">
+    <div class="table-container">
         <table id="resultTable" style="display:none;">
             <thead>
                 <tr>
-                    <th>Sow ID</th>             <th>Boar ID</th>            <th>G.Sire</th>             <th>G.Dam</th>              <th>Mate Week<br>Minggu</th><th>Mating Date<br>Tarikh Kahwin</th> <th>Total Wt.<br>(kg)</th>  <th>Farrow Date<br>Tarikh Beranak</th> <th>Parity</th>             <th>Still<br>born</th>      <th>Mummi<br>fied</th>      <th>Deform</th>             <th>Total<br>Born</th>      <th>Live<br>Hidup</th>      <th class="col-range">Breeder Start</th> <th class="col-range">Breeder End</th>   <th class="col-range">Porker Start</th>  <th class="col-range">Porker End</th>    </tr>
+                    <th>Sow ID</th>
+                    <th>Boar ID</th>
+                    <th>G.Sire</th>
+                    <th>G.Dam</th>
+                    
+                    <th style="background:#c0392b">Mate Week<br>Minggu</th>
+                    <th>Mating Date<br>Tarikh Kahwin</th>
+                    <th style="background:#8e44ad">Total Wt.<br>(kg)</th>
+                    <th>Farrow Date<br>Tarikh Beranak</th>
+                    
+                    <th>Parity</th>
+                    <th>Still<br>born</th>
+                    <th>Mummi<br>fied</th>
+                    <th>Deform</th>
+                    <th>Total<br>Born</th>
+                    <th>Live<br>Hidup</th>
+                    
+                    <th class="hl-range">Breeder Start</th>
+                    <th class="hl-range">Breeder End</th>
+                    <th class="hl-range">Porker Start</th>
+                    <th class="hl-range">Porker End</th>
+                </tr>
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
     </div>
     
-    <div class="footer-info">System V10.0 | Strict Column Alignment</div>
+    <div class="ver-tag" id="verInfo">System Waiting...</div>
 </div>
 
 <script>
     // ============================================
-    // ★★★ 請將您的 Web App 網址貼在下方引號中 ★★★
+    // ★★★ 請確認這是您的 Web App URL ★★★
     // ============================================
     const API_URL = "https://script.google.com/macros/s/AKfycbyguTs5ih8yLUB8NjRdJS4GB9E3d3E3A2hbDK13u-pv9gl49GAfrA0uNBWqagRRmvBz/exec"; 
     // ============================================
@@ -82,6 +84,7 @@
     function doSearch() {
         const input = document.getElementById('tagInput').value.trim();
         const statusDiv = document.getElementById('status');
+        const verInfo = document.getElementById('verInfo');
         const btn = document.getElementById('searchBtn');
         const table = document.getElementById('resultTable');
         const tbody = document.getElementById('tableBody');
@@ -89,8 +92,8 @@
         if(!input) { alert("Please enter ID."); return; }
         
         btn.disabled = true;
-        statusDiv.style.color = "#e67e22";
-        statusDiv.textContent = "Tracing History... / Sedang Mengesan Rekod...";
+        statusDiv.style.color = "orange";
+        statusDiv.textContent = "Loading...";
         table.style.display = 'none';
         tbody.innerHTML = '';
 
@@ -98,27 +101,27 @@
         .then(res => res.json())
         .then(json => {
             btn.disabled = false;
+            if(json.version) { verInfo.textContent = "Backend Version: " + json.version; }
 
             if (json.error) {
-                statusDiv.style.color = "#c0392b";
-                statusDiv.textContent = "Error: " + json.error;
+                statusDiv.style.color = "red";
+                statusDiv.textContent = json.error;
             } else if (json.data && json.data.length > 0) {
-                statusDiv.style.color = "#27ae60";
-                const targetSow = json.targetSow ? json.targetSow : "Unknown";
-                statusDiv.textContent = `Found Sow: ${targetSow} | History: ${json.data.length} cycles`;
-                
+                statusDiv.style.color = "green";
+                const targetSow = json.targetSow || "Unknown";
+                statusDiv.textContent = `Sow: ${targetSow} | Records: ${json.data.length}`;
                 renderTable(json.data);
                 table.style.display = 'table';
             } else {
-                statusDiv.style.color = "#c0392b";
+                statusDiv.style.color = "red";
                 statusDiv.textContent = "No records found.";
             }
         })
         .catch(err => {
-            console.error(err);
             btn.disabled = false;
-            statusDiv.style.color = "#c0392b";
+            statusDiv.style.color = "red";
             statusDiv.textContent = "Connection Failed.";
+            console.error(err);
         });
     }
 
@@ -131,11 +134,11 @@
                 const td = document.createElement('td');
                 td.textContent = cell;
                 
-                // === 樣式對齊 (嚴格對應 Index) ===
-                if(index === 0) td.className = 'col-id'; // Sow ID
-                if(index === 4) td.className = 'col-week'; // Mate Week
-                if(index === 6) td.className = 'col-wt';   // Total Wt (Index 6)
-                if(index >= 14) td.className = 'col-range'; // Ranges
+                // 樣式對應 Index (V13.0)
+                if(index === 0) td.style.fontWeight = "bold"; // Sow
+                if(index === 4) td.className = "hl-week";     // Mate Week (4)
+                if(index === 6) td.className = "hl-wt";       // Total Wt (6)
+                if(index >= 14) td.className = "hl-range";    // Ranges
                 
                 tr.appendChild(td);
             });

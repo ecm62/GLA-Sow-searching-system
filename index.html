@@ -2,56 +2,182 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S - Dashboard V21</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>S.P.T.S - Responsive V22</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f5f7fa; padding: 20px; margin: 0; display: flex; flex-direction: column; align-items: center; color: #333; }
-        .container { width: 98%; max-width: 1800px; padding: 0; }
+        /* ==============================
+           全域設定
+           ============================== */
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #f5f7fa; 
+            padding: 10px; /* 手機版邊距縮小 */
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            color: #333; 
+        }
         
-        /* 搜尋區 */
-        .search-section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        h2 { margin: 0; font-size: 20px; color: #2c3e50; border-right: 2px solid #ddd; padding-right: 15px; }
-        input { padding: 10px; font-size: 16px; width: 200px; text-transform: uppercase; border: 1px solid #ccc; border-radius: 4px; }
-        button { padding: 10px 25px; background: #27ae60; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; }
+        .container { 
+            width: 100%; 
+            max-width: 1800px; 
+            padding: 0; 
+        }
+        
+        /* ==============================
+           搜尋區 (Search)
+           ============================== */
+        .search-section { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+            display: flex; 
+            flex-wrap: wrap; /* 讓手機版搜尋框自動換行 */
+            align-items: center; 
+            gap: 10px; 
+            margin-bottom: 15px; 
+        }
+        
+        h2 { margin: 0; font-size: 18px; color: #2c3e50; border-right: 2px solid #ddd; padding-right: 15px; white-space: nowrap; }
+        
+        input { 
+            padding: 10px; 
+            font-size: 16px; 
+            flex: 1; /* 手機版自動填滿 */
+            min-width: 150px;
+            text-transform: uppercase; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+        }
+        
+        button { 
+            padding: 10px 20px; 
+            background: #27ae60; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            border-radius: 4px; 
+            white-space: nowrap;
+        }
         button:hover { background: #219150; }
-        #status { font-weight: bold; margin-left: auto; color: #7f8c8d; }
+        
+        #status { font-weight: bold; margin-left: auto; color: #7f8c8d; font-size: 14px; width: 100%; text-align: right; margin-top: 5px; }
 
         /* ==============================
-           歷史系譜 (History) - 現在在上方
+           模組一：歷史紀錄 (History)
            ============================== */
-        #historyModule { display: none; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 10px; border-top: 5px solid #34495e; margin-bottom: 25px; }
-        .history-header { padding: 10px 20px; font-weight: bold; color: #2c3e50; font-size: 18px; margin-bottom: 10px; border-bottom: 1px solid #eee; }
+        #historyModule { 
+            display: none; 
+            background: white; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            padding: 5px; 
+            border-top: 5px solid #34495e; 
+            margin-bottom: 20px; 
+        }
+        .history-header { padding: 10px; font-weight: bold; color: #2c3e50; font-size: 16px; border-bottom: 1px solid #eee; }
 
-        .table-container { overflow-x: auto; border: 1px solid #999; }
-        table { width: 100%; border-collapse: collapse; min-width: 1400px; }
+        .table-container { overflow-x: auto; border: 1px solid #ccc; }
+        table { width: 100%; border-collapse: collapse; min-width: 1200px; } /* 保持表格最小寬度，手機可滑動 */
         
-        th, td { padding: 12px 6px; text-align: center; border: 1px solid #999; font-size: 14px; white-space: nowrap; }
+        th, td { padding: 8px 4px; text-align: center; border: 1px solid #ccc; font-size: 13px; white-space: nowrap; }
         th { background-color: #34495e; color: white; vertical-align: middle; }
         
-        /* 樣式 */
+        /* 歷史表格樣式 */
         tr:nth-child(even) { background-color: #f8f9fa; }
         .hl-id { font-weight: bold; color: #2980b9; background-color: #ebf5fb; }
-        .hl-week-head { background-color: #c0392b; }
         .hl-week { background-color: #fdedec; color: #c0392b; font-weight: bold; }
-        .hl-wt-head { background-color: #8e44ad; }
         .hl-wt { background-color: #f4ecf7; color: #6c3483; font-weight: bold; }
-        .hl-range-head { background-color: #d35400; font-size: 12px; }
         .hl-range { background-color: #fef5e7; color: #d35400; font-size: 12px; }
 
         /* ==============================
-           性能評級 (Grade) - 現在在下方
+           模組二：性能評級 (Grade) - V22 重點修改
            ============================== */
-        #gradeModule { display: none; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; border-top: 5px solid #e67e22; }
-        .grade-header { background: #fdf2e9; padding: 10px 20px; font-weight: bold; color: #d35400; font-size: 18px; border-bottom: 1px solid #eee; }
+        #gradeModule { 
+            display: none; 
+            background: white; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+            border-top: 5px solid #e67e22; 
+        }
+        .grade-header { background: #fdf2e9; padding: 10px; font-weight: bold; color: #d35400; font-size: 16px; border-bottom: 1px solid #eee; }
         
-        .grade-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0; }
-        .grade-item { border-right: 1px solid #eee; border-bottom: 1px solid #eee; padding: 15px 10px; text-align: center; }
-        .grade-label { display: block; font-size: 12px; color: #7f8c8d; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .grade-value { display: block; font-size: 16px; font-weight: bold; color: #2c3e50; }
+        /* ★★★ V22 桌面版樣式：強制一行 (Flexbox) ★★★ */
+        .grade-container {
+            display: flex;
+            flex-wrap: nowrap; /* 禁止換行 */
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .grade-item { 
+            flex: 1; /* 平均分配寬度 */
+            border-right: 1px solid #eee; 
+            padding: 8px 2px; /* 縮小內距 */
+            text-align: center; 
+            min-width: 0; /* 允許縮到最小 */
+        }
         
-        /* 特別強調決策欄位 */
-        .decision-box { background-color: #eaf2f8; }
-        .decision-box .grade-value { color: #2980b9; font-size: 18px; }
+        .grade-item:last-child { border-right: none; }
+
+        .grade-label { 
+            display: block; 
+            font-size: 11px; /* 縮小字體 */
+            color: #7f8c8d; 
+            margin-bottom: 4px; 
+            text-transform: uppercase; 
+            white-space: nowrap; /* 標題不換行 */
+            overflow: hidden; /* 超出隱藏 */
+            text-overflow: ellipsis; /* 變成 ... */
+        }
+        
+        .grade-value { 
+            display: block; 
+            font-size: 15px; /* 數值字體 */
+            font-weight: bold; 
+            color: #2c3e50; 
+            white-space: nowrap;
+        }
+
+        .decision-box { background-color: #eaf2f8; min-width: 100px; /* 決策欄位稍微寬一點 */ }
+        .decision-box .grade-value { color: #2980b9; }
+
+        /* ==============================
+           ★★★ V22 手機版專用樣式 (Responsive) ★★★
+           當螢幕小於 768px (手機/平板直向) 時生效
+           ============================== */
+        @media (max-width: 768px) {
+            /* 搜尋區變直排 */
+            .search-section { flex-direction: column; align-items: stretch; }
+            h2 { border-right: none; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 10px; text-align: center; }
+            #status { text-align: center; }
+
+            /* 性能評級改為 Grid (格子狀) */
+            .grade-container {
+                display: grid;
+                flex-wrap: wrap; /* 允許換行 */
+                /* 手機每行顯示 3 個，看起來最舒適 */
+                grid-template-columns: repeat(3, 1fr); 
+            }
+            
+            .grade-item {
+                border-bottom: 1px solid #eee;
+                padding: 10px 5px;
+            }
+            
+            /* 讓決策欄位在手機上佔滿一整行，因為它字多 */
+            .decision-box {
+                grid-column: 1 / -1; /* 跨越所有欄位 */
+                background-color: #d6eaf8;
+            }
+            
+            /* 加大手機上的字體，方便手指閱讀 */
+            .grade-label { font-size: 12px; }
+            .grade-value { font-size: 18px; }
+        }
 
     </style>
 </head>
@@ -62,7 +188,7 @@
         <h2>S.P.T.S Dashboard</h2>
         <input type="text" id="tagInput" placeholder="Enter Sow ID..." onkeypress="if(event.key==='Enter') doSearch()">
         <button id="searchBtn" onclick="doSearch()">SEARCH</button>
-        <span id="status">System V21.0 Ready</span>
+        <div id="status">System V22.0 Ready</div>
     </div>
 
     <div id="historyModule">
@@ -98,14 +224,14 @@
 
     <div id="gradeModule">
         <div class="grade-header">Sow Performance Grade</div>
-        <div class="grade-grid" id="gradeGrid"></div>
+        <div class="grade-container" id="gradeGrid"></div>
     </div>
 
 </div>
 
 <script>
     // ============================================
-    // ★★★ 請確認這是您的 Web App URL (不用動) ★★★
+    // ★★★ 請確認這是您的 Web App URL ★★★
     // ============================================
     const API_URL = "https://script.google.com/macros/s/AKfycbyguTs5ih8yLUB8NjRdJS4GB9E3d3E3A2hbDK13u-pv9gl49GAfrA0uNBWqagRRmvBz/exec"; 
     // ============================================
@@ -141,7 +267,7 @@
 
             if (!hasHistory && !hasGrade) {
                 statusDiv.style.color = "red";
-                statusDiv.textContent = "No records found in any module.";
+                statusDiv.textContent = "No records found.";
                 return;
             }
 
@@ -171,7 +297,6 @@
     function renderGrade(data) {
         const grid = document.getElementById('gradeGrid');
         
-        // ★★★ V21.0 欄位篩選設定 ★★★
         const fields = [
             { k: 'sowId', L: 'Sow ID' },
             { k: 'breed', L: 'Breed' },
@@ -180,10 +305,6 @@
             { k: 'decision', L: 'Breeding Decision', style: 'decision-box' },
             { k: 'spi', L: 'SPI Index' },
             { k: 'ggp', L: 'GGP Index' },
-            // { k: 'lsy', L: 'LSY' },  <-- 已隱藏
-            // { k: 'psy', L: 'PSY' },  <-- 已隱藏
-            // { k: 'pws', L: 'PWS' },  <-- 已隱藏
-            // { k: 'npd', L: 'NPD' },  <-- 已隱藏
             { k: 'cvBirth', L: 'CV Birth' },
             { k: 'cvGilt', L: 'CV Gilt' },
             { k: 'cvPork', L: 'CV Pork' },
@@ -193,39 +314,4 @@
 
         let html = '';
         fields.forEach(f => {
-            const val = (data && data[f.k] !== undefined && data[f.k] !== "") ? data[f.k] : '-';
-            const extraClass = f.style ? f.style : '';
-            html += `
-                <div class="grade-item ${extraClass}">
-                    <span class="grade-label">${f.L}</span>
-                    <span class="grade-value">${val}</span>
-                </div>
-            `;
-        });
-        grid.innerHTML = html;
-    }
-
-    function renderHistory(data) {
-        const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
-        
-        data.forEach(row => {
-            const tr = document.createElement('tr');
-            row.forEach((cell, index) => {
-                const td = document.createElement('td');
-                td.textContent = cell;
-                
-                if(index === 0) td.className = "hl-id";
-                if(index === 4) td.className = "hl-week";
-                if(index === 6) td.className = "hl-wt";
-                if(index >= 14) td.className = "hl-range";
-                
-                tr.appendChild(td);
-            });
-            tbody.appendChild(tr);
-        });
-    }
-</script>
-
-</body>
-</html>
+            const val = (data && data[f.k

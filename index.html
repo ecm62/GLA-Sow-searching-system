@@ -3,271 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S - Professional Report V17</title>
+    <title>S.P.T.S - Dual Module V19</title>
     <style>
-        /* =========================================
-           1. 全域字體設定 (Typography Reset)
-           ========================================= */
-        * {
-            box-sizing: border-box;
-        }
-
-        body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* 統一專業字體 */
-            font-size: 14px; /* 基礎字級 */
-            background-color: #f5f7fa; /* 淺灰背景，降低螢幕刺眼感 */
-            padding: 20px; 
-            margin: 0;
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            color: #333;
-        }
-
-        /* =========================================
-           2. 版面容器 (Layout)
-           ========================================= */
-        .container { 
-            width: 98%; 
-            max-width: 1800px; /* 限制超大螢幕的最大寬度 */
-            background: white; 
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08); /* 增加立體感 */
-        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f5f7fa; padding: 20px; margin: 0; display: flex; flex-direction: column; align-items: center; color: #333; }
+        .container { width: 98%; max-width: 1800px; padding: 0; }
         
-        /* =========================================
-           3. 控制面板 (Header & Controls)
-           ========================================= */
-        .header-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
-        
-        h2 { margin: 0; font-size: 18px; color: #2c3e50; font-weight: 700; }
-
-        .search-box { display: flex; gap: 8px; align-items: center; }
-        
-        /* 輸入框美化 */
-        input { 
-            padding: 8px 12px; 
-            font-family: inherit; /* 繼承統一字體 */
-            font-size: 14px; 
-            width: 220px; 
-            text-transform: uppercase; 
-            border: 1px solid #bdc3c7; 
-            border-radius: 4px;
-            transition: border 0.3s;
-        }
-        input:focus { border-color: #27ae60; outline: none; }
-        
-        /* 按鈕美化 */
-        button { 
-            padding: 8px 20px; 
-            font-family: inherit;
-            font-size: 14px; 
-            background: #27ae60; 
-            color: white; 
-            border: none; 
-            cursor: pointer; 
-            font-weight: 600; 
-            border-radius: 4px;
-            letter-spacing: 0.5px;
-        }
+        /* 搜尋區 */
+        .search-section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        h2 { margin: 0; font-size: 20px; color: #2c3e50; border-right: 2px solid #ddd; padding-right: 15px; }
+        input { padding: 10px; font-size: 16px; width: 200px; text-transform: uppercase; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 25px; background: #27ae60; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; }
         button:hover { background: #219150; }
-        
-        #status { font-weight: 600; margin-left: 10px; font-size: 14px; }
-        .ver-tag { font-size: 12px; color: #95a5a6; }
+        #status { font-weight: bold; margin-left: auto; color: #7f8c8d; }
 
-        /* =========================================
-           4. 表格核心樣式 (Table Styles)
-           ========================================= */
-        .table-container { 
-            overflow-x: auto; 
-            border: 1px solid #7f8c8d; /* 表格外框 */
-        }
-
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            min-width: 1400px; /* 防止過度壓縮 */
-        }
+        /* ==============================
+           Module 2: Grade Dashboard (上方)
+           ============================== */
+        #gradeModule { display: none; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 25px; overflow: hidden; border-top: 5px solid #e67e22; }
+        .grade-header { background: #fdf2e9; padding: 10px 20px; font-weight: bold; color: #d35400; font-size: 16px; border-bottom: 1px solid #eee; }
         
-        /* 統一標題與內容樣式 */
-        th, td { 
-            font-family: inherit; /* 強制繼承 Body 字體 */
-            font-size: 14px;      /* 強制統一大小 */
-            padding: 12px 8px;    /* 增加呼吸空間 */
-            text-align: center;   /* 全部置中 */
-            vertical-align: middle;
-            border: 1px solid #7f8c8d; /* 深灰色格線 (比純黑柔和) */
-            line-height: 1.4;
-        }
+        .grade-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0; }
+        .grade-item { border-right: 1px solid #eee; border-bottom: 1px solid #eee; padding: 15px 10px; text-align: center; }
+        .grade-label { display: block; font-size: 12px; color: #7f8c8d; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .grade-value { display: block; font-size: 16px; font-weight: bold; color: #2c3e50; }
         
-        /* 標題列專屬 */
-        th { 
-            background-color: #34495e; 
-            color: #ffffff; 
-            font-weight: 600;
-            white-space: nowrap; /* 標題不換行 (除非有 <br>) */
-            letter-spacing: 0.3px;
-        }
+        /* 特別強調決策欄位 */
+        .decision-box { background-color: #eaf2f8; }
+        .decision-box .grade-value { color: #2980b9; font-size: 18px; }
 
-        /* =========================================
-           5. 顏色與狀態 (Colors)
-           ========================================= */
-        /* 斑馬紋 */
+        /* ==============================
+           Module 1: History Table (下方)
+           ============================== */
+        #historyModule { display: none; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 10px; border-top: 5px solid #34495e; }
+        .history-header { padding: 10px 20px; font-weight: bold; color: #2c3e50; font-size: 16px; margin-bottom: 10px; }
+
+        .table-container { overflow-x: auto; border: 1px solid #999; }
+        table { width: 100%; border-collapse: collapse; min-width: 1400px; }
+        
+        th, td { padding: 12px 6px; text-align: center; border: 1px solid #999; font-size: 14px; white-space: nowrap; }
+        th { background-color: #34495e; color: white; vertical-align: middle; }
+        
+        /* 樣式 */
         tr:nth-child(even) { background-color: #f8f9fa; }
-        tr:hover { background-color: #eafaf1; transition: background 0.2s; }
-
-        /* Sow ID 強調 */
-        .hl-id { 
-            font-weight: 700; 
-            color: #2c3e50; 
-            background-color: #ecf0f1; 
-        }
-        
-        /* Week (紅) */
-        th.hl-week-head { background-color: #c0392b; border-color: #922b21; }
-        .hl-week { 
-            color: #c0392b; 
-            font-weight: 700; 
-            background-color: #fdedec; 
-        }
-        
-        /* Weight (紫) */
-        th.hl-wt-head { background-color: #8e44ad; border-color: #6c3483; }
-        .hl-wt { 
-            color: #6c3483; 
-            font-weight: 700; 
-            background-color: #f4ecf7; 
-        }
-        
-        /* Range (橘 - 統一字體大小，但用顏色區隔) */
-        th.hl-range-head { background-color: #e67e22; border-color: #d35400; }
-        .hl-range { 
-            color: #d35400; 
-            background-color: #fef5e7; 
-        }
+        .hl-id { font-weight: bold; color: #2980b9; background-color: #ebf5fb; }
+        .hl-week-head { background-color: #c0392b; }
+        .hl-week { background-color: #fdedec; color: #c0392b; font-weight: bold; }
+        .hl-wt-head { background-color: #8e44ad; }
+        .hl-wt { background-color: #f4ecf7; color: #6c3483; font-weight: bold; }
+        .hl-range-head { background-color: #d35400; font-size: 12px; }
+        .hl-range { background-color: #fef5e7; color: #d35400; font-size: 12px; }
 
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-controls">
-        <div class="search-box">
-            <h2>S.P.T.S Report</h2>
-            <div style="width: 20px;"></div> <input type="text" id="tagInput" placeholder="Enter ID (e.g. LY10020)..." onkeypress="if(event.key==='Enter') doSearch()">
-            <button id="searchBtn" onclick="doSearch()">SEARCH</button>
-            <span id="status">Waiting for input...</span>
-        </div>
-        <div class="ver-tag" id="verInfo">System Ready V17.0</div>
+    <div class="search-section">
+        <h2>S.P.T.S Dashboard</h2>
+        <input type="text" id="tagInput" placeholder="Enter Sow ID..." onkeypress="if(event.key==='Enter') doSearch()">
+        <button id="searchBtn" onclick="doSearch()">SEARCH</button>
+        <span id="status">System V19.0 Ready</span>
     </div>
 
-    <div class="table-container">
-        <table id="resultTable" style="display:none;">
-            <thead>
-                <tr>
-                    <th style="width:7%">Sow ID</th>
-                    <th style="width:7%">Boar ID</th>
+    <div id="gradeModule">
+        <div class="grade-header">MODULE 2: Sow Performance Grade</div>
+        <div class="grade-grid" id="gradeGrid">
+            </div>
+    </div>
 
-                    <th style="width:7%">G.Dam</th>
-                    <th style="width:7%">G.Sire</th>
-                    
-                    <th class="hl-week-head" style="width:6%">Mate Week</th>
-                    <th style="width:8%">Mating Date</th>
-                    
-                    <th class="hl-wt-head" style="width:6%">Total Wt.<br>(kg)</th>
-                    <th style="width:8%">Farrow Date</th>
-                    
-                    <th style="width:4%">Parity</th>
-                    <th style="width:4%">Still<br>born</th>
-                    <th style="width:4%">Mummi<br>fied</th>
-                    <th style="width:4%">Deform</th>
-                    <th style="width:5%">Total<br>Born</th>
-                    <th style="width:5%">Born<br>Live</th>
-                    
-                    <th class="hl-range-head">Breeder Start</th>
-                    <th class="hl-range-head">Breeder End</th>
-                    <th class="hl-range-head">Porker Start</th>
-                    <th class="hl-range-head">Porker End</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
+    <div id="historyModule">
+        <div class="history-header">MODULE 1: Historical Genealogy</div>
+        <div class="table-container">
+            <table id="resultTable">
+                <thead>
+                    <tr>
+                        <th style="width:6%">Sow ID</th>
+                        <th style="width:6%">Boar ID</th>
+                        <th style="width:6%">G.Dam</th>
+                        <th style="width:6%">G.Sire</th>
+                        <th class="hl-week-head" style="width:5%">Mate Week</th>
+                        <th style="width:7%">Mating Date</th>
+                        <th class="hl-wt-head" style="width:5%">Total Wt.<br>(kg)</th>
+                        <th style="width:7%">Farrow Date</th>
+                        <th>Parity</th>
+                        <th>Still<br>born</th>
+                        <th>Mummi<br>fied</th>
+                        <th>Deform</th>
+                        <th>Total<br>Born</th>
+                        <th>Born<br>Live</th>
+                        <th class="hl-range-head">Breeder Start</th>
+                        <th class="hl-range-head">Breeder End</th>
+                        <th class="hl-range-head">Porker Start</th>
+                        <th class="hl-range-head">Porker End</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <script>
     // ============================================
-    // ★★★ 請確認這是您的 Web App URL https://docs.google.com/spreadsheets/d/1qvo4INF0LZjA2u49grKW_cHeEPJO48_dk6gOlXoMgaM/edit?gid=1428367761#gid=1428367761  數據庫  https://script.google.com/home/projects/12dZF-rrVdO0N_Wn76-osZ2Pv-Fk7LOhyqM9twwPtF66wnQ2v_ciXGjxX/edit   ★★★
+    // ★★★ 請確認這是您的 Web App URL ★★★
     // ============================================
-    const API_URL = "https://script.google.com/macros/s/AKfycbyguTs5ih8yLUB8NjRdJS4GB9E3d3E3A2hbDK13u-pv9gl49GAfrA0uNBWqagRRmvBz/exec"; 
+    const API_URL = "在此貼上您的 Web App URL"; 
     // ============================================
 
     function doSearch() {
         const input = document.getElementById('tagInput').value.trim();
         const statusDiv = document.getElementById('status');
-        const verInfo = document.getElementById('verInfo');
         const btn = document.getElementById('searchBtn');
-        const table = document.getElementById('resultTable');
-        const tbody = document.getElementById('tableBody');
+        const gradeModule = document.getElementById('gradeModule');
+        const historyModule = document.getElementById('historyModule');
 
         if(!input) { alert("Please enter ID."); return; }
         
+        // Reset UI
         btn.disabled = true;
-        statusDiv.style.color = "#e67e22";
-        statusDiv.textContent = "Loading Data...";
-        table.style.display = 'none';
-        tbody.innerHTML = '';
+        statusDiv.style.color = "orange";
+        statusDiv.textContent = "Querying Databases...";
+        gradeModule.style.display = 'none';
+        historyModule.style.display = 'none';
 
         fetch(API_URL + "?tag=" + encodeURIComponent(input))
         .then(res => res.json())
         .then(json => {
             btn.disabled = false;
-            if(json.version) { verInfo.textContent = "Backend: " + json.version; }
 
             if (json.error) {
-                statusDiv.style.color = "#c0392b";
+                statusDiv.style.color = "red";
                 statusDiv.textContent = json.error;
-            } else if (json.data && json.data.length > 0) {
-                statusDiv.style.color = "#27ae60";
-                const targetSow = json.targetSow || "Unknown";
-                statusDiv.textContent = `Found: ${targetSow} (${json.data.length} records)`;
-                renderTable(json.data);
-                table.style.display = 'table';
-            } else {
-                statusDiv.style.color = "#c0392b";
-                statusDiv.textContent = "No records found.";
+                return;
+            }
+
+            const hasHistory = json.historyData && json.historyData.length > 0;
+            const hasGrade = json.gradeData !== null;
+
+            if (!hasHistory && !hasGrade) {
+                statusDiv.style.color = "red";
+                statusDiv.textContent = "No records found in any module.";
+                return;
+            }
+
+            // 成功找到資料
+            statusDiv.style.color = "green";
+            statusDiv.textContent = `Found: ${json.targetSow || input}`;
+
+            // 渲染模組二 (Grade)
+            if (hasGrade) {
+                renderGrade(json.gradeData);
+                gradeModule.style.display = 'block';
+            }
+
+            // 渲染模組一 (History)
+            if (hasHistory) {
+                renderHistory(json.historyData);
+                historyModule.style.display = 'block';
             }
         })
         .catch(err => {
             btn.disabled = false;
-            statusDiv.style.color = "#c0392b";
+            statusDiv.style.color = "red";
             statusDiv.textContent = "Network Error.";
             console.error(err);
         });
     }
 
-    function renderTable(data) {
+    // 渲染模組二：卡片式數據
+    function renderGrade(data) {
+        const grid = document.getElementById('gradeGrid');
+        // 定義顯示順序與標籤
+        const fields = [
+            { k: 'sowId', L: 'Sow ID' },
+            { k: 'breed', L: 'Breed' },
+            { k: 'parity', L: 'Parity' },
+            { k: 'grade', L: 'Grade' },
+            { k: 'decision', L: 'Decision', style: 'decision-box' },
+            { k: 'spi', L: 'SPI Index' },
+            { k: 'ggp', L: 'GGP Index' },
+            { k: 'lsy', L: 'LSY' },
+            { k: 'psy', L: 'PSY' },
+            { k: 'pws', L: 'PWS' },
+            { k: 'npd', L: 'NPD' },
+            { k: 'cvBirth', L: 'CV Birth' },
+            { k: 'cvGilt', L: 'CV Gilt' },
+            { k: 'cvPork', L: 'CV Pork' },
+            { k: 'g110', L: 'Growth 110' },
+            { k: 'g130', L: 'Growth 130' }
+        ];
+
+        let html = '';
+        fields.forEach(f => {
+            const val = data[f.k] !== undefined ? data[f.k] : '-';
+            const extraClass = f.style ? f.style : '';
+            html += `
+                <div class="grade-item ${extraClass}">
+                    <span class="grade-label">${f.L}</span>
+                    <span class="grade-value">${val}</span>
+                </div>
+            `;
+        });
+        grid.innerHTML = html;
+    }
+
+    // 渲染模組一：表格數據
+    function renderHistory(data) {
         const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        
         data.forEach(row => {
             const tr = document.createElement('tr');
-            
             row.forEach((cell, index) => {
                 const td = document.createElement('td');
                 td.textContent = cell;
                 
-                // 樣式應用 (嚴格對齊 V15.0 後端順序)
-                if(index === 0) td.className = "hl-id";    // Sow ID
-                if(index === 4) td.className = "hl-week";  // Mate Week
-                if(index === 6) td.className = "hl-wt";    // Total Wt
-                if(index >= 14) td.className = "hl-range"; // Ranges
+                if(index === 0) td.className = "hl-id";
+                if(index === 4) td.className = "hl-week";
+                if(index === 6) td.className = "hl-wt";
+                if(index >= 14) td.className = "hl-range";
                 
                 tr.appendChild(td);
             });
@@ -278,5 +232,3 @@
 
 </body>
 </html>
-
-

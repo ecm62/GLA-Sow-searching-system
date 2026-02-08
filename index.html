@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S - Dual Module V19</title>
+    <title>S.P.T.S - Dual Module V20</title>
     <style>
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f5f7fa; padding: 20px; margin: 0; display: flex; flex-direction: column; align-items: center; color: #333; }
         .container { width: 98%; max-width: 1800px; padding: 0; }
@@ -62,13 +62,12 @@
         <h2>S.P.T.S Dashboard</h2>
         <input type="text" id="tagInput" placeholder="Enter Sow ID..." onkeypress="if(event.key==='Enter') doSearch()">
         <button id="searchBtn" onclick="doSearch()">SEARCH</button>
-        <span id="status">System V19.0 Ready</span>
+        <span id="status">System V20.0 Ready</span>
     </div>
 
     <div id="gradeModule">
         <div class="grade-header">MODULE 2: Sow Performance Grade</div>
-        <div class="grade-grid" id="gradeGrid">
-            </div>
+        <div class="grade-grid" id="gradeGrid"></div>
     </div>
 
     <div id="historyModule">
@@ -104,11 +103,10 @@
 </div>
 
 <script>
-<script>
     // ============================================
     // ★★★ 請確認這是您的 Web App URL ★★★
     // ============================================
-    const API_URL = "https://script.google.com/macros/s/AKfycbyguTs5ih8yLUB8NjRdJS4GB9E3d3E3A2hbDK13u-pv9gl49GAfrA0uNBWqagRRmvBz/exec"; 
+    const API_URL = "在此貼上您的 Web App URL"; 
     // ============================================
 
     function doSearch() {
@@ -120,7 +118,6 @@
 
         if(!input) { alert("Please enter ID."); return; }
         
-        // Reset UI
         btn.disabled = true;
         statusDiv.style.color = "orange";
         statusDiv.textContent = "Querying Databases...";
@@ -131,21 +128,10 @@
         .then(res => res.json())
         .then(json => {
             btn.disabled = false;
-            console.log("Backend Response:", json); // ★★★ 在瀏覽器 Console 顯示回傳資料，方便除錯
 
-            // 1. 檢查是否發生系統錯誤
             if (json.error) {
                 statusDiv.style.color = "red";
-                statusDiv.textContent = "Error: " + json.error;
-                return;
-            }
-
-            // 2. 檢查版本是否同步 (關鍵檢查)
-            if (json.version !== "v19.0") {
-                statusDiv.style.color = "red";
-                // 如果這裡顯示，代表您忘記執行「建立新版本」部署
-                statusDiv.textContent = "Version Mismatch! Backend is: " + (json.version || "Old");
-                alert("警告：後端程式碼未更新！請回到 GAS 執行 [部署] -> [建立新版本]");
+                statusDiv.textContent = json.error;
                 return;
             }
 
@@ -158,17 +144,14 @@
                 return;
             }
 
-            // 成功找到資料
             statusDiv.style.color = "green";
             statusDiv.textContent = `Found: ${json.targetSow || input}`;
 
-            // 渲染模組二 (Grade)
             if (hasGrade) {
                 renderGrade(json.gradeData);
                 gradeModule.style.display = 'block';
             }
 
-            // 渲染模組一 (History)
             if (hasHistory) {
                 renderHistory(json.historyData);
                 historyModule.style.display = 'block';
@@ -177,12 +160,11 @@
         .catch(err => {
             btn.disabled = false;
             statusDiv.style.color = "red";
-            statusDiv.textContent = "Network Error (Check Console)";
+            statusDiv.textContent = "Network Error.";
             console.error(err);
         });
     }
 
-    // 渲染模組二：卡片式數據
     function renderGrade(data) {
         const grid = document.getElementById('gradeGrid');
         const fields = [
@@ -206,8 +188,7 @@
 
         let html = '';
         fields.forEach(f => {
-            // 安全檢查：防止 undefined 導致顯示錯誤
-            const val = (data && data[f.k] !== undefined && data[f.k] !== "") ? data[f.k] : '-';
+            const val = data[f.k] !== undefined ? data[f.k] : '-';
             const extraClass = f.style ? f.style : '';
             html += `
                 <div class="grade-item ${extraClass}">
@@ -219,7 +200,6 @@
         grid.innerHTML = html;
     }
 
-    // 渲染模組一：表格數據
     function renderHistory(data) {
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
@@ -241,9 +221,6 @@
         });
     }
 </script>
-</script>
 
 </body>
 </html>
-
-

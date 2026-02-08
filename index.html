@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S - Dual Module V20</title>
+    <title>S.P.T.S - Dashboard V21</title>
     <style>
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f5f7fa; padding: 20px; margin: 0; display: flex; flex-direction: column; align-items: center; color: #333; }
         .container { width: 98%; max-width: 1800px; padding: 0; }
@@ -17,25 +17,10 @@
         #status { font-weight: bold; margin-left: auto; color: #7f8c8d; }
 
         /* ==============================
-           Module 2: Grade Dashboard (上方)
+           歷史系譜 (History) - 現在在上方
            ============================== */
-        #gradeModule { display: none; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 25px; overflow: hidden; border-top: 5px solid #e67e22; }
-        .grade-header { background: #fdf2e9; padding: 10px 20px; font-weight: bold; color: #d35400; font-size: 16px; border-bottom: 1px solid #eee; }
-        
-        .grade-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0; }
-        .grade-item { border-right: 1px solid #eee; border-bottom: 1px solid #eee; padding: 15px 10px; text-align: center; }
-        .grade-label { display: block; font-size: 12px; color: #7f8c8d; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .grade-value { display: block; font-size: 16px; font-weight: bold; color: #2c3e50; }
-        
-        /* 特別強調決策欄位 */
-        .decision-box { background-color: #eaf2f8; }
-        .decision-box .grade-value { color: #2980b9; font-size: 18px; }
-
-        /* ==============================
-           Module 1: History Table (下方)
-           ============================== */
-        #historyModule { display: none; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 10px; border-top: 5px solid #34495e; }
-        .history-header { padding: 10px 20px; font-weight: bold; color: #2c3e50; font-size: 16px; margin-bottom: 10px; }
+        #historyModule { display: none; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 10px; border-top: 5px solid #34495e; margin-bottom: 25px; }
+        .history-header { padding: 10px 20px; font-weight: bold; color: #2c3e50; font-size: 18px; margin-bottom: 10px; border-bottom: 1px solid #eee; }
 
         .table-container { overflow-x: auto; border: 1px solid #999; }
         table { width: 100%; border-collapse: collapse; min-width: 1400px; }
@@ -53,6 +38,21 @@
         .hl-range-head { background-color: #d35400; font-size: 12px; }
         .hl-range { background-color: #fef5e7; color: #d35400; font-size: 12px; }
 
+        /* ==============================
+           性能評級 (Grade) - 現在在下方
+           ============================== */
+        #gradeModule { display: none; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; border-top: 5px solid #e67e22; }
+        .grade-header { background: #fdf2e9; padding: 10px 20px; font-weight: bold; color: #d35400; font-size: 18px; border-bottom: 1px solid #eee; }
+        
+        .grade-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0; }
+        .grade-item { border-right: 1px solid #eee; border-bottom: 1px solid #eee; padding: 15px 10px; text-align: center; }
+        .grade-label { display: block; font-size: 12px; color: #7f8c8d; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .grade-value { display: block; font-size: 16px; font-weight: bold; color: #2c3e50; }
+        
+        /* 特別強調決策欄位 */
+        .decision-box { background-color: #eaf2f8; }
+        .decision-box .grade-value { color: #2980b9; font-size: 18px; }
+
     </style>
 </head>
 <body>
@@ -62,16 +62,11 @@
         <h2>S.P.T.S Dashboard</h2>
         <input type="text" id="tagInput" placeholder="Enter Sow ID..." onkeypress="if(event.key==='Enter') doSearch()">
         <button id="searchBtn" onclick="doSearch()">SEARCH</button>
-        <span id="status">System V20.0 Ready</span>
-    </div>
-
-    <div id="gradeModule">
-        <div class="grade-header">MODULE 2: Sow Performance Grade</div>
-        <div class="grade-grid" id="gradeGrid"></div>
+        <span id="status">System V21.0 Ready</span>
     </div>
 
     <div id="historyModule">
-        <div class="history-header">MODULE 1: Historical Genealogy</div>
+        <div class="history-header">Historical Genealogy</div>
         <div class="table-container">
             <table id="resultTable">
                 <thead>
@@ -100,13 +95,19 @@
             </table>
         </div>
     </div>
+
+    <div id="gradeModule">
+        <div class="grade-header">Sow Performance Grade</div>
+        <div class="grade-grid" id="gradeGrid"></div>
+    </div>
+
 </div>
 
 <script>
     // ============================================
-    // ★★★ 請確認這是您的 Web App URL ★★★
+    // ★★★ 請確認這是您的 Web App URL (不用動) ★★★
     // ============================================
-    const API_URL = "https://script.google.com/macros/s/AKfycbyGFiqToGARH6CBVMf--3uEc_4QIj8j1qo9T-KZdoLL908O6qOSdpBkl2Qg03XnXQN5/exec"; 
+    const API_URL = "https://script.google.com/macros/s/AKfycbyguTs5ih8yLUB8NjRdJS4GB9E3d3E3A2hbDK13u-pv9gl49GAfrA0uNBWqagRRmvBz/exec"; 
     // ============================================
 
     function doSearch() {
@@ -147,14 +148,16 @@
             statusDiv.style.color = "green";
             statusDiv.textContent = `Found: ${json.targetSow || input}`;
 
-            if (hasGrade) {
-                renderGrade(json.gradeData);
-                gradeModule.style.display = 'block';
-            }
-
+            // 1. 顯示歷史 (上方)
             if (hasHistory) {
                 renderHistory(json.historyData);
                 historyModule.style.display = 'block';
+            }
+
+            // 2. 顯示評級 (下方)
+            if (hasGrade) {
+                renderGrade(json.gradeData);
+                gradeModule.style.display = 'block';
             }
         })
         .catch(err => {
@@ -167,18 +170,20 @@
 
     function renderGrade(data) {
         const grid = document.getElementById('gradeGrid');
+        
+        // ★★★ V21.0 欄位篩選設定 ★★★
         const fields = [
             { k: 'sowId', L: 'Sow ID' },
             { k: 'breed', L: 'Breed' },
             { k: 'parity', L: 'Parity' },
             { k: 'grade', L: 'Grade' },
-            { k: 'decision', L: 'Decision', style: 'decision-box' },
+            { k: 'decision', L: 'Breeding Decision', style: 'decision-box' },
             { k: 'spi', L: 'SPI Index' },
             { k: 'ggp', L: 'GGP Index' },
-            { k: 'lsy', L: 'LSY' },
-            { k: 'psy', L: 'PSY' },
-            { k: 'pws', L: 'PWS' },
-            { k: 'npd', L: 'NPD' },
+            // { k: 'lsy', L: 'LSY' },  <-- 已隱藏
+            // { k: 'psy', L: 'PSY' },  <-- 已隱藏
+            // { k: 'pws', L: 'PWS' },  <-- 已隱藏
+            // { k: 'npd', L: 'NPD' },  <-- 已隱藏
             { k: 'cvBirth', L: 'CV Birth' },
             { k: 'cvGilt', L: 'CV Gilt' },
             { k: 'cvPork', L: 'CV Pork' },
@@ -188,7 +193,7 @@
 
         let html = '';
         fields.forEach(f => {
-            const val = data[f.k] !== undefined ? data[f.k] : '-';
+            const val = (data && data[f.k] !== undefined && data[f.k] !== "") ? data[f.k] : '-';
             const extraClass = f.style ? f.style : '';
             html += `
                 <div class="grade-item ${extraClass}">
@@ -224,5 +229,3 @@
 
 </body>
 </html>
-
-

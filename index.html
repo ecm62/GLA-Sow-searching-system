@@ -5,58 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S.P.T.S Professional v24</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f5f7fa; padding: 10px; margin: 0; display: flex; flex-direction: column; align-items: center; color: #333; }
-        .container { width: 100%; max-width: 1800px; }
+        /* ==============================
+           全域與專業色調鎖定
+           ============================== */
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #F1F5F9; 
+            padding: 20px; margin: 0; 
+            display: flex; flex-direction: column; align-items: center; 
+            color: #1E293B; 
+        }
         
-        /* 搜尋區 - 依照隱私要求優化 */
-        .search-section { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 15px; }
-        h2 { margin: 0; font-size: 18px; color: #2c3e50; border-right: 2px solid #ddd; padding-right: 15px; }
-        input { padding: 10px; font-size: 16px; flex: 1; min-width: 150px; text-transform: uppercase; border: 1px solid #ccc; border-radius: 4px; }
-        button { padding: 10px 20px; background: #27ae60; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; }
-        #status { font-weight: bold; margin-left: auto; color: #7f8c8d; font-size: 14px; width: 100%; text-align: right; }
+        .container { width: 100%; max-width: 1400px; }
 
-        /* 模組佈局 */
-        #historyModule, #gradeModule { display: none; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 15px; margin-bottom: 20px; }
-        .module-header { padding-bottom: 10px; font-weight: bold; color: #2c3e50; border-bottom: 2px solid #eee; margin-bottom: 15px; }
+        /* 頂部標題 */
+        .main-header {
+            text-align: center; color: #FFFFFF; padding: 25px;
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+            border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+        
+        /* 搜尋區 - 移除所有暗示 */
+        .search-section { 
+            background: white; padding: 20px; border-radius: 12px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
+            display: flex; align-items: center; gap: 15px; margin-bottom: 25px; 
+        }
+        input { 
+            padding: 12px 15px; font-size: 16px; flex: 1; 
+            border: 1px solid #CBD5E1; border-radius: 8px; text-transform: uppercase;
+        }
+        button { 
+            padding: 12px 25px; background: #1E3A8A; color: white; 
+            border: none; cursor: pointer; font-weight: bold; border-radius: 8px; transition: 0.3s;
+        }
+        button:hover { background: #1E40AF; transform: translateY(-1px); }
+        #status { font-weight: 600; font-size: 14px; color: #64748B; margin-left: auto; }
 
-        /* 性能評級單行壓縮版 */
-        .grade-container { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 10px; }
-        .grade-item { flex: 1; min-width: 80px; text-align: center; padding: 10px; background: #f8f9fa; border-radius: 6px; }
-        .grade-label { display: block; font-size: 11px; color: #7f8c8d; margin-bottom: 5px; }
-        .grade-value { display: block; font-size: 16px; font-weight: bold; color: #2c3e50; }
-        .decision-box { background-color: #eaf2f8; border: 1px solid #2980b9; }
+        /* ==============================
+           性能評級區塊 (4欄位精緻佈局)
+           ============================== */
+        #gradeModule { display: none; margin-bottom: 30px; }
+        .section-title {
+            border-left: 6px solid #1E3A8A; padding-left: 15px;
+            color: #1E3A8A; font-weight: 800; font-size: 20px; margin-bottom: 15px;
+        }
+        .grade-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 強制四欄 */
+            gap: 15px;
+        }
+        .grade-card {
+            background: white; padding: 15px; border-radius: 10px;
+            text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 4px solid #3B82F6;
+        }
+        .grade-label { display: block; font-size: 12px; color: #64748B; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+        .grade-value { display: block; font-size: 18px; font-weight: 800; color: #1E3A8A; }
+        
+        /* 決策框特殊色 */
+        .decision-highlight { background-color: #EFF6FF !important; border-top-color: #10B981 !important; }
 
-        /* 歷史表格 */
-        .table-container { overflow-x: auto; }
+        /* ==============================
+           歷史紀錄表格
+           ============================== */
+        #historyModule { display: none; }
+        .table-container { 
+            background: white; padding: 10px; border-radius: 12px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow-x: auto; 
+        }
         table { width: 100%; border-collapse: collapse; min-width: 1200px; font-size: 13px; }
-        th, td { padding: 10px; text-align: center; border: 1px solid #eee; }
-        th { background-color: #34495e; color: white; }
-        tr:nth-child(even) { background-color: #fcfcfc; }
+        th { background-color: #F8FAFC; color: #1E3A8A; padding: 12px; border-bottom: 2px solid #E2E8F0; text-align: center; }
+        td { padding: 12px; text-align: center; border-bottom: 1px solid #F1F5F9; color: #334155; }
+        tr:hover { background-color: #F8FAFC; }
+        .hl-parity { font-weight: bold; color: #2563EB; }
+
+        @media (max-width: 1024px) { .grade-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="main-header">
+        <h1>S.P.T.S SOW PERFORMANCE TRACKING</h1>
+        <p style="opacity: 0.8; font-size: 14px; font-weight: 500;">Bilingual Professional Management System</p>
+    </div>
+
     <div class="search-section">
-        <h2>S.P.T.S Dashboard</h2>
-        <!-- 修正：移除 placeholder 暗示 -->
         <input type="text" id="tagInput" placeholder="" onkeypress="if(event.key==='Enter') doSearch()">
         <button id="searchBtn" onclick="doSearch()">SEARCH</button>
-        <div id="status">Secure System Ready</div>
+        <div id="status">System Secure & Ready</div>
     </div>
 
     <div id="gradeModule">
-        <div class="module-header">Sow Performance Grade</div>
-        <div class="grade-container" id="gradeGrid"></div>
+        <div class="section-title">I. SOW PERFORMANCE GRADE</div>
+        <div class="grade-grid" id="gradeGrid"></div>
     </div>
 
     <div id="historyModule">
-        <div class="module-header">Historical Genealogy</div>
+        <div class="section-title">II. HISTORICAL GENEALOGY</div>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>Sow ID</th><th>Boar ID</th><th>Mate Week</th><th>Mating Date</th><th>Total Wt.</th><th>Farrow Date</th><th>Parity</th><th>Total Born</th><th>Born Live</th>
+                        <th>Sow ID</th><th>Boar ID</th><th>Mate Week</th><th>Mating Date</th><th>Total Wt.</th>
+                        <th>Farrow Date</th><th>Parity</th><th>Still Born</th><th>Mummified</th><th>Total Born</th><th>Born Live</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -66,7 +120,7 @@
 </div>
 
 <script>
-    // ⚠️ 請務必在此更新您的 GAS Web App URL
+    // ⚠️ 關鍵：請確保此 URL 是您最新「部署為任何人」的 GAS 網址
     const API_URL = "https://script.google.com/macros/s/AKfycbyguTs5ih8yLUB8NjRdJS4GB9E3d3E3A2hbDK13u-pv9gl49GAfrA0uNBWqagRRmvBz/exec"; 
 
     function doSearch() {
@@ -77,10 +131,9 @@
         if(!input) return;
         
         btn.disabled = true;
-        statusDiv.style.color = "orange";
-        statusDiv.textContent = "Connecting to Secure Database...";
+        statusDiv.style.color = "#EAB308";
+        statusDiv.textContent = "Connecting to Data Warehouse...";
         
-        // 清除舊資料
         document.getElementById('gradeModule').style.display = 'none';
         document.getElementById('historyModule').style.display = 'none';
 
@@ -89,13 +142,13 @@
         .then(json => {
             btn.disabled = false;
             if (json.error) {
-                statusDiv.style.color = "red";
+                statusDiv.style.color = "#EF4444";
                 statusDiv.textContent = `Error: ${json.error}`;
                 return;
             }
 
-            statusDiv.style.color = "green";
-            statusDiv.textContent = "Data Retrieved Successfully.";
+            statusDiv.style.color = "#10B981";
+            statusDiv.textContent = "Data Successfully Verified.";
 
             if (json.gradeData) {
                 renderGrade(json.gradeData);
@@ -108,20 +161,23 @@
         })
         .catch(err => {
             btn.disabled = false;
-            statusDiv.style.color = "red";
-            statusDiv.textContent = "Network error. Please check GAS permissions.";
+            statusDiv.style.color = "#EF4444";
+            statusDiv.textContent = "Network Error: Check GAS Deployment Access.";
         });
     }
 
     function renderGrade(data) {
         const grid = document.getElementById('gradeGrid');
+        // 選取關鍵的 8 個指標以符合 4x2 的美觀版面
         const fields = [
-            { k: 'sowId', L: 'Sow ID' }, { k: 'breed', L: 'Breed' }, { k: 'parity', L: 'Parity' },
-            { k: 'grade', L: 'Grade' }, { k: 'decision', L: 'Decision', style: 'decision-box' },
-            { k: 'spi', L: 'SPI Index' }, { k: 'ggp', L: 'GGP Index' }
+            { k: 'sowId', L: 'Sow ID' }, { k: 'breed', L: 'Breed' }, 
+            { k: 'parity', L: 'Parity' }, { k: 'grade', L: 'Grade' },
+            { k: 'spi', L: 'SPI Index' }, { k: 'ggp', L: 'GGP Index' },
+            { k: 'cvBirth', L: 'CV Birth' }, { k: 'decision', L: 'Decision', style: 'decision-highlight' }
         ];
+        
         grid.innerHTML = fields.map(f => `
-            <div class="grade-item ${f.style || ''}">
+            <div class="grade-card ${f.style || ''}">
                 <span class="grade-label">${f.L}</span>
                 <span class="grade-value">${data[f.k] || '-'}</span>
             </div>
@@ -130,10 +186,20 @@
 
     function renderHistory(data) {
         const tbody = document.getElementById('tableBody');
+        // 過濾與格式化顯示欄位 (排除不必要的 Genealogy 索引以保持清晰)
         tbody.innerHTML = data.map(row => `
             <tr>
-                <td>${row[0]}</td><td>${row[1]}</td><td>${row[4]}</td><td>${row[5]}</td>
-                <td>${row[6]}</td><td>${row[7]}</td><td>${row[8]}</td><td>${row[12]}</td><td>${row[13]}</td>
+                <td style="font-weight:800;">${row[0]}</td>
+                <td>${row[1]}</td>
+                <td>W${row[4]}</td>
+                <td>${row[5]}</td>
+                <td style="color:#6366F1; font-weight:700;">${row[6]}</td>
+                <td>${row[7]}</td>
+                <td class="hl-parity">P${row[8]}</td>
+                <td>${row[9]}</td>
+                <td>${row[10]}</td>
+                <td style="background:#F0F9FF; font-weight:800;">${row[12]}</td>
+                <td style="background:#F0FDF4; font-weight:800; color:#16A34A;">${row[13]}</td>
             </tr>
         `).join('');
     }

@@ -3,162 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S - Single Line Fix V23</title>
+    <title>S.P.T.S Professional v24</title>
     <style>
-        /* ==============================
-           全域設定
-           ============================== */
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            background-color: #f5f7fa; 
-            padding: 10px; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            color: #333; 
-        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f5f7fa; padding: 10px; margin: 0; display: flex; flex-direction: column; align-items: center; color: #333; }
+        .container { width: 100%; max-width: 1800px; }
         
-        .container { 
-            width: 100%; 
-            max-width: 1800px; 
-            padding: 0; 
-        }
-        
-        /* ==============================
-           搜尋區
-           ============================== */
-        .search-section { 
-            background: white; 
-            padding: 15px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
-            display: flex; 
-            flex-wrap: wrap;
-            align-items: center; 
-            gap: 10px; 
-            margin-bottom: 15px; 
-        }
-        
-        h2 { margin: 0; font-size: 18px; color: #2c3e50; border-right: 2px solid #ddd; padding-right: 15px; white-space: nowrap; }
-        
+        /* 搜尋區 - 依照隱私要求優化 */
+        .search-section { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 15px; }
+        h2 { margin: 0; font-size: 18px; color: #2c3e50; border-right: 2px solid #ddd; padding-right: 15px; }
         input { padding: 10px; font-size: 16px; flex: 1; min-width: 150px; text-transform: uppercase; border: 1px solid #ccc; border-radius: 4px; }
-        button { padding: 10px 20px; background: #27ae60; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; white-space: nowrap; }
-        button:hover { background: #219150; }
-        #status { font-weight: bold; margin-left: auto; color: #7f8c8d; font-size: 14px; width: 100%; text-align: right; margin-top: 5px; }
+        button { padding: 10px 20px; background: #27ae60; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; }
+        #status { font-weight: bold; margin-left: auto; color: #7f8c8d; font-size: 14px; width: 100%; text-align: right; }
 
-        /* ==============================
-           模組一：歷史紀錄 (History)
-           ============================== */
-        #historyModule { 
-            display: none; 
-            background: white; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            padding: 5px; 
-            border-top: 5px solid #34495e; 
-            margin-bottom: 20px; 
-        }
-        .history-header { padding: 10px; font-weight: bold; color: #2c3e50; font-size: 16px; border-bottom: 1px solid #eee; }
+        /* 模組佈局 */
+        #historyModule, #gradeModule { display: none; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 15px; margin-bottom: 20px; }
+        .module-header { padding-bottom: 10px; font-weight: bold; color: #2c3e50; border-bottom: 2px solid #eee; margin-bottom: 15px; }
 
-        .table-container { overflow-x: auto; border: 1px solid #ccc; }
-        table { width: 100%; border-collapse: collapse; min-width: 1200px; }
-        
-        th, td { padding: 8px 4px; text-align: center; border: 1px solid #ccc; font-size: 13px; white-space: nowrap; }
-        th { background-color: #34495e; color: white; vertical-align: middle; }
-        
-        tr:nth-child(even) { background-color: #f8f9fa; }
-        .hl-id { font-weight: bold; color: #2980b9; background-color: #ebf5fb; }
-        .hl-week { background-color: #fdedec; color: #c0392b; font-weight: bold; }
-        .hl-wt { background-color: #f4ecf7; color: #6c3483; font-weight: bold; }
-        .hl-range { background-color: #fef5e7; color: #d35400; font-size: 12px; }
+        /* 性能評級單行壓縮版 */
+        .grade-container { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 10px; }
+        .grade-item { flex: 1; min-width: 80px; text-align: center; padding: 10px; background: #f8f9fa; border-radius: 6px; }
+        .grade-label { display: block; font-size: 11px; color: #7f8c8d; margin-bottom: 5px; }
+        .grade-value { display: block; font-size: 16px; font-weight: bold; color: #2c3e50; }
+        .decision-box { background-color: #eaf2f8; border: 1px solid #2980b9; }
 
-        /* ==============================
-           模組二：性能評級 (Grade) - V23 極限壓縮版
-           ============================== */
-        #gradeModule { 
-            display: none; 
-            background: white; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            overflow: hidden; 
-            border-top: 5px solid #e67e22; 
-        }
-        .grade-header { background: #fdf2e9; padding: 10px; font-weight: bold; color: #d35400; font-size: 16px; border-bottom: 1px solid #eee; }
-        
-        /* ★★★ V23 桌面版：強制單行不換行 ★★★ */
-        .grade-container {
-            display: flex;
-            flex-wrap: nowrap; /* 絕對禁止換行 */
-            width: 100%;
-            overflow-x: auto; /* 如果螢幕真的小到不行，才出現橫向卷軸，而不是換行 */
-        }
-
-        .grade-item { 
-            flex: 1; /* 平均分配 */
-            border-right: 1px solid #eee; 
-            padding: 6px 1px; /* 內距壓到最小 */
-            text-align: center; 
-            min-width: 50px; /* 允許縮得很小 */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .grade-item:last-child { border-right: none; }
-
-        .grade-label { 
-            display: block; 
-            font-size: 10px; /* 標題縮小 */
-            color: #999; 
-            margin-bottom: 2px; 
-            text-transform: uppercase; 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; /* 太長變... */
-        }
-        
-        .grade-value { 
-            display: block; 
-            font-size: 14px; /* 數值縮小 */
-            font-weight: bold; 
-            color: #2c3e50; 
-            white-space: nowrap;
-        }
-
-        /* 決策欄位稍微寬一點 */
-        .decision-box { background-color: #eaf2f8; min-width: 80px; flex: 1.5; }
-        .decision-box .grade-value { color: #2980b9; font-size: 13px; }
-
-        /* ==============================
-           手機版 (維持 3 欄式，方便手指點)
-           ============================== */
-        @media (max-width: 768px) {
-            .search-section { flex-direction: column; align-items: stretch; }
-            h2 { border-right: none; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 10px; text-align: center; }
-            #status { text-align: center; }
-
-            .grade-container {
-                display: grid;
-                flex-wrap: wrap; 
-                grid-template-columns: repeat(3, 1fr); /* 3欄 */
-                overflow-x: visible;
-            }
-            
-            .grade-item {
-                border-bottom: 1px solid #eee;
-                padding: 10px 5px;
-            }
-            
-            .decision-box {
-                grid-column: 1 / -1; 
-                background-color: #d6eaf8;
-            }
-            
-            .grade-label { font-size: 12px; }
-            .grade-value { font-size: 16px; }
-        }
-
+        /* 歷史表格 */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 1200px; font-size: 13px; }
+        th, td { padding: 10px; text-align: center; border: 1px solid #eee; }
+        th { background-color: #34495e; color: white; }
+        tr:nth-child(even) { background-color: #fcfcfc; }
     </style>
 </head>
 <body>
@@ -166,165 +39,104 @@
 <div class="container">
     <div class="search-section">
         <h2>S.P.T.S Dashboard</h2>
-        <input type="text" id="tagInput" placeholder="Enter Sow ID..." onkeypress="if(event.key==='Enter') doSearch()">
+        <!-- 修正：移除 placeholder 暗示 -->
+        <input type="text" id="tagInput" placeholder="" onkeypress="if(event.key==='Enter') doSearch()">
         <button id="searchBtn" onclick="doSearch()">SEARCH</button>
-        <div id="status">System V23.0 Ready</div>
+        <div id="status">Secure System Ready</div>
+    </div>
+
+    <div id="gradeModule">
+        <div class="module-header">Sow Performance Grade</div>
+        <div class="grade-container" id="gradeGrid"></div>
     </div>
 
     <div id="historyModule">
-        <div class="history-header">Historical Genealogy</div>
+        <div class="module-header">Historical Genealogy</div>
         <div class="table-container">
-            <table id="resultTable">
+            <table>
                 <thead>
                     <tr>
-                        <th style="width:6%">Sow ID</th>
-                        <th style="width:6%">Boar ID</th>
-                        <th style="width:6%">G.Dam</th>
-                        <th style="width:6%">G.Sire</th>
-                        <th class="hl-week-head" style="width:5%">Mate Week</th>
-                        <th style="width:7%">Mating Date</th>
-                        <th class="hl-wt-head" style="width:5%">Total Wt.<br>(kg)</th>
-                        <th style="width:7%">Farrow Date</th>
-                        <th>Parity</th>
-                        <th>Still<br>born</th>
-                        <th>Mummi<br>fied</th>
-                        <th>Deform</th>
-                        <th>Total<br>Born</th>
-                        <th>Born<br>Live</th>
-                        <th class="hl-range-head">Breeder Start</th>
-                        <th class="hl-range-head">Breeder End</th>
-                        <th class="hl-range-head">Porker Start</th>
-                        <th class="hl-range-head">Porker End</th>
+                        <th>Sow ID</th><th>Boar ID</th><th>Mate Week</th><th>Mating Date</th><th>Total Wt.</th><th>Farrow Date</th><th>Parity</th><th>Total Born</th><th>Born Live</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
             </table>
         </div>
     </div>
-
-    <div id="gradeModule">
-        <div class="grade-header">Sow Performance Grade</div>
-        <div class="grade-container" id="gradeGrid"></div>
-    </div>
-
 </div>
 
 <script>
-    // ============================================
-    // ★★★ 請確認這是您的 Web App URL ★★★
-    // ============================================
+    // ⚠️ 請務必在此更新您的 GAS Web App URL
     const API_URL = "https://script.google.com/macros/s/AKfycbyguTs5ih8yLUB8NjRdJS4GB9E3d3E3A2hbDK13u-pv9gl49GAfrA0uNBWqagRRmvBz/exec"; 
-    // ============================================
 
     function doSearch() {
         const input = document.getElementById('tagInput').value.trim();
         const statusDiv = document.getElementById('status');
         const btn = document.getElementById('searchBtn');
-        const gradeModule = document.getElementById('gradeModule');
-        const historyModule = document.getElementById('historyModule');
 
-        if(!input) { alert("Please enter ID."); return; }
+        if(!input) return;
         
         btn.disabled = true;
         statusDiv.style.color = "orange";
-        statusDiv.textContent = "Querying Databases...";
-        gradeModule.style.display = 'none';
-        historyModule.style.display = 'none';
+        statusDiv.textContent = "Connecting to Secure Database...";
+        
+        // 清除舊資料
+        document.getElementById('gradeModule').style.display = 'none';
+        document.getElementById('historyModule').style.display = 'none';
 
-        fetch(API_URL + "?tag=" + encodeURIComponent(input))
+        fetch(`${API_URL}?tag=${encodeURIComponent(input)}`)
         .then(res => res.json())
         .then(json => {
             btn.disabled = false;
-
             if (json.error) {
                 statusDiv.style.color = "red";
-                statusDiv.textContent = json.error;
-                return;
-            }
-
-            const hasHistory = json.historyData && json.historyData.length > 0;
-            const hasGrade = json.gradeData !== null;
-
-            if (!hasHistory && !hasGrade) {
-                statusDiv.style.color = "red";
-                statusDiv.textContent = "No records found in any module.";
+                statusDiv.textContent = `Error: ${json.error}`;
                 return;
             }
 
             statusDiv.style.color = "green";
-            statusDiv.textContent = `Found: ${json.targetSow || input}`;
+            statusDiv.textContent = "Data Retrieved Successfully.";
 
-            if (hasHistory) {
-                renderHistory(json.historyData);
-                historyModule.style.display = 'block';
-            }
-
-            if (hasGrade) {
+            if (json.gradeData) {
                 renderGrade(json.gradeData);
-                gradeModule.style.display = 'block';
+                document.getElementById('gradeModule').style.display = 'block';
+            }
+            if (json.historyData && json.historyData.length > 0) {
+                renderHistory(json.historyData);
+                document.getElementById('historyModule').style.display = 'block';
             }
         })
         .catch(err => {
             btn.disabled = false;
             statusDiv.style.color = "red";
-            statusDiv.textContent = "Network Error.";
-            console.error(err);
+            statusDiv.textContent = "Network error. Please check GAS permissions.";
         });
     }
 
     function renderGrade(data) {
         const grid = document.getElementById('gradeGrid');
-        
         const fields = [
-            { k: 'sowId', L: 'Sow ID' },
-            { k: 'breed', L: 'Breed' },
-            { k: 'parity', L: 'Parity' },
-            { k: 'grade', L: 'Grade' },
-            { k: 'decision', L: 'Decision', style: 'decision-box' },
-            { k: 'spi', L: 'SPI Index' },
-            { k: 'ggp', L: 'GGP Index' },
-            { k: 'cvBirth', L: 'CV Birth' },
-            { k: 'cvGilt', L: 'CV Gilt' },
-            { k: 'cvPork', L: 'CV Pork' },
-            { k: 'g110', L: 'Growth 110' },
-            { k: 'g130', L: 'Growth 130' }
+            { k: 'sowId', L: 'Sow ID' }, { k: 'breed', L: 'Breed' }, { k: 'parity', L: 'Parity' },
+            { k: 'grade', L: 'Grade' }, { k: 'decision', L: 'Decision', style: 'decision-box' },
+            { k: 'spi', L: 'SPI Index' }, { k: 'ggp', L: 'GGP Index' }
         ];
-
-        let html = '';
-        fields.forEach(f => {
-            const val = (data && data[f.k] !== undefined && data[f.k] !== "") ? data[f.k] : '-';
-            const extraClass = f.style ? f.style : '';
-            html += `
-                <div class="grade-item ${extraClass}">
-                    <span class="grade-label">${f.L}</span>
-                    <span class="grade-value">${val}</span>
-                </div>
-            `;
-        });
-        grid.innerHTML = html;
+        grid.innerHTML = fields.map(f => `
+            <div class="grade-item ${f.style || ''}">
+                <span class="grade-label">${f.L}</span>
+                <span class="grade-value">${data[f.k] || '-'}</span>
+            </div>
+        `).join('');
     }
 
     function renderHistory(data) {
         const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
-        
-        data.forEach(row => {
-            const tr = document.createElement('tr');
-            row.forEach((cell, index) => {
-                const td = document.createElement('td');
-                td.textContent = cell;
-                
-                if(index === 0) td.className = "hl-id";
-                if(index === 4) td.className = "hl-week";
-                if(index === 6) td.className = "hl-wt";
-                if(index >= 14) td.className = "hl-range";
-                
-                tr.appendChild(td);
-            });
-            tbody.appendChild(tr);
-        });
+        tbody.innerHTML = data.map(row => `
+            <tr>
+                <td>${row[0]}</td><td>${row[1]}</td><td>${row[4]}</td><td>${row[5]}</td>
+                <td>${row[6]}</td><td>${row[7]}</td><td>${row[8]}</td><td>${row[12]}</td><td>${row[13]}</td>
+            </tr>
+        `).join('');
     }
 </script>
-
 </body>
 </html>

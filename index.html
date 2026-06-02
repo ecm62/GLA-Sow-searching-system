@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S Professional v24</title>
+    <title>G.L.A. Boar Elite Tracking v8.8</title>
     <style>
         /* ==============================
-           全域與專業色調鎖定
+           全域與專業色調鎖定 (S.P.T.S 高階架構復刻)
            ============================== */
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
@@ -18,7 +18,7 @@
         
         .container { width: 100%; max-width: 1400px; }
 
-        /* 頂部標題 */
+        /* 頂部大標 */
         .main-header {
             text-align: center; color: #FFFFFF; padding: 25px;
             background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
@@ -26,7 +26,7 @@
             margin-bottom: 25px;
         }
         
-        /* 搜尋區 - 移除所有暗示 */
+        /* 搜尋區塊 */
         .search-section { 
             background: white; padding: 20px; border-radius: 12px; 
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
@@ -35,6 +35,7 @@
         input { 
             padding: 12px 15px; font-size: 16px; flex: 1; 
             border: 1px solid #CBD5E1; border-radius: 8px; text-transform: uppercase;
+            font-weight: bold; text-align: center;
         }
         button { 
             padding: 12px 25px; background: #1E3A8A; color: white; 
@@ -44,7 +45,7 @@
         #status { font-weight: 600; font-size: 14px; color: #64748B; margin-left: auto; }
 
         /* ==============================
-           性能評級區塊 (4欄位精緻佈局)
+           第一部分：性能指標佈局 (3x3 完美矩陣佈局)
            ============================== */
         #gradeModule { display: none; margin-bottom: 30px; }
         .section-title {
@@ -53,7 +54,7 @@
         }
         .grade-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 強制四欄 */
+            grid-template-columns: repeat(3, 1fr); 
             gap: 15px;
         }
         .grade-card {
@@ -64,11 +65,12 @@
         .grade-label { display: block; font-size: 12px; color: #64748B; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
         .grade-value { display: block; font-size: 18px; font-weight: 800; color: #1E3A8A; }
         
-        /* 決策框特殊色 */
+        /* 策略框與核心指標強化樣式 */
         .decision-highlight { background-color: #EFF6FF !important; border-top-color: #10B981 !important; }
+        .strategy-text { color: #16A34A !important; font-size: 16px !important; }
 
         /* ==============================
-           歷史紀錄表格
+           第二部分：歷史採精紀錄表格 (A:K)
            ============================== */
         #historyModule { display: none; }
         .table-container { 
@@ -79,7 +81,7 @@
         th { background-color: #F8FAFC; color: #1E3A8A; padding: 12px; border-bottom: 2px solid #E2E8F0; text-align: center; }
         td { padding: 12px; text-align: center; border-bottom: 1px solid #F1F5F9; color: #334155; }
         tr:hover { background-color: #F8FAFC; }
-        .hl-parity { font-weight: bold; color: #2563EB; }
+        .hl-numeric { font-weight: bold; color: #2563EB; }
 
         @media (max-width: 1024px) { .grade-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
@@ -88,29 +90,38 @@
 
 <div class="container">
     <div class="main-header">
-        <h1>S.P.T.S SOW PERFORMANCE TRACKING</h1>
-        <p style="opacity: 0.8; font-size: 14px; font-weight: 500;">Bilingual Professional Management System</p>
+        <h1>GLA BOAR PERFORMANCE TRACKING SYSTEM</h1>
+        <p style="opacity: 0.8; font-size: 14px; font-weight: 500;">Bilingual Professional Management System (Permanently Online)</p>
     </div>
 
     <div class="search-section">
-        <input type="text" id="tagInput" placeholder="" onkeypress="if(event.key==='Enter') doSearch()">
+        <input type="text" id="tagInput" placeholder="ENTER BOAR ID OR NUMBER (E.G. 1397)..." onkeypress="if(event.key==='Enter') doSearch()">
         <button id="searchBtn" onclick="doSearch()">SEARCH</button>
-        <div id="status">System Secure & Ready</div>
+        <div id="status">System Secure & Ready / Sistem Sedia</div>
     </div>
 
     <div id="gradeModule">
-        <div class="section-title">I. SOW PERFORMANCE GRADE</div>
+        <div class="section-title">I. BOAR GRADE & STRATEGY / GRED & STRATEGI BOAR</div>
         <div class="grade-grid" id="gradeGrid"></div>
     </div>
 
     <div id="historyModule">
-        <div class="section-title">II. HISTORICAL GENEALOGY</div>
+        <div class="section-title">II. RECENT 10 EXTRACTIONS / 10 REKOD PENGUMPULAN TERKINI (A:K)</div>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>Sow ID</th><th>Boar ID</th><th>Mate Week</th><th>Mating Date</th><th>Total Wt.</th>
-                        <th>Farrow Date</th><th>Parity</th><th>Still Born</th><th>Mummified</th><th>Total Born</th><th>Born Live</th>
+                        <th>Date / Tarikh</th>
+                        <th>Breed / Baka</th>
+                        <th>Boar ID / No. Tag</th>
+                        <th>Vol(ml) Collected</th>
+                        <th>Odor / Bau</th>
+                        <th>Color / Warna</th>
+                        <th>Vitality / Aktiviti</th>
+                        <th>Concentration</th>
+                        <th>Impurities (%)</th>
+                        <th>Diluted Vol(ml)</th>
+                        <th>Other Record</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -120,8 +131,8 @@
 </div>
 
 <script>
-    // ⚠️ 關鍵：請確保此 URL 是您最新「部署為任何人」的 GAS 網址
-    const API_URL = "https://script.google.com/macros/s/AKfycbyguTs5ih8yLUB8NjRdJS4GB9E3d3E3A2hbDK13u-pv9gl49GAfrA0uNBWqagRRmvBz/exec"; 
+    // 確已置換為您 2026年6月3日清晨 部署的正確跨表 GAS 網址
+    const API_URL = "https://script.google.com/macros/s/AKfycbzRZwk7jrn25oeIrA9HUkh19KBHK6kRjbxDZjoCiOdFs1SKRGaP3v7LRGTXogzSShM2/exec"; 
 
     function doSearch() {
         const input = document.getElementById('tagInput').value.trim();
@@ -132,7 +143,7 @@
         
         btn.disabled = true;
         statusDiv.style.color = "#EAB308";
-        statusDiv.textContent = "Connecting to Data Warehouse...";
+        statusDiv.textContent = "Connecting to Data Warehouse / Menyambung...";
         
         document.getElementById('gradeModule').style.display = 'none';
         document.getElementById('historyModule').style.display = 'none';
@@ -143,17 +154,19 @@
             btn.disabled = false;
             if (json.error) {
                 statusDiv.style.color = "#EF4444";
-                statusDiv.textContent = `Error: ${json.error}`;
+                statusDiv.textContent = `Error / Ralat: ${json.error}`;
                 return;
             }
 
             statusDiv.style.color = "#10B981";
-            statusDiv.textContent = "Data Successfully Verified.";
+            statusDiv.textContent = "Data Successfully Verified / Data Disahkan.";
 
+            // 渲染表一
             if (json.gradeData) {
                 renderGrade(json.gradeData);
                 document.getElementById('gradeModule').style.display = 'block';
             }
+            // 渲染表二
             if (json.historyData && json.historyData.length > 0) {
                 renderHistory(json.historyData);
                 document.getElementById('historyModule').style.display = 'block';
@@ -168,12 +181,16 @@
 
     function renderGrade(data) {
         const grid = document.getElementById('gradeGrid');
-        // 選取關鍵的 8 個指標以符合 4x2 的美觀版面
         const fields = [
-            { k: 'sowId', L: 'Sow ID' }, { k: 'breed', L: 'Breed' }, 
-            { k: 'parity', L: 'Parity' }, { k: 'grade', L: 'Grade' },
-            { k: 'spi', L: 'SPI Index' }, { k: 'ggp', L: 'GGP Index' },
-            { k: 'cvBirth', L: 'CV Birth' }, { k: 'decision', L: 'Decision', style: 'decision-highlight' }
+            { k: 'tagId', L: 'Tag ID / No. Tag' }, 
+            { k: 'breed', L: 'Breed / Baka' }, 
+            { k: 'grade', L: 'Grade / Gred' },
+            { k: 'indexScore', L: 'Index Score / Skor Indeks' }, 
+            { k: 'avgTso', L: 'Avg TSO / Purata TSO' }, 
+            { k: 'mated', L: 'Mated / Mengawan' },
+            { k: 'crPercent', L: 'CR % / Kadar 受胎' }, 
+            { k: 'avgBirthWt', L: 'Avg Birth Wt / Berat Lahir' },
+            { k: 'strategy', L: 'Management Strategy / Strategi', style: 'decision-highlight strategy-text' }
         ];
         
         grid.innerHTML = fields.map(f => `
@@ -186,20 +203,19 @@
 
     function renderHistory(data) {
         const tbody = document.getElementById('tableBody');
-        // 過濾與格式化顯示欄位 (排除不必要的 Genealogy 索引以保持清晰)
         tbody.innerHTML = data.map(row => `
             <tr>
-                <td style="font-weight:800;">${row[0]}</td>
+                <td style="font-weight:800; color:#1E3A8A;">${row[0]}</td>
                 <td>${row[1]}</td>
-                <td>W${row[4]}</td>
+                <td style="font-weight:700;">${row[2]}</td>
+                <td class="hl-numeric" style="background:#F0F9FF; font-weight:800;">${row[3]}</td>
+                <td>${row[4]}</td>
                 <td>${row[5]}</td>
-                <td style="color:#6366F1; font-weight:700;">${row[6]}</td>
+                <td style="font-weight:700; color:#16A34A;">${row[6]}</td>
                 <td>${row[7]}</td>
-                <td class="hl-parity">P${row[8]}</td>
-                <td>${row[9]}</td>
-                <td>${row[10]}</td>
-                <td style="background:#F0F9FF; font-weight:800;">${row[12]}</td>
-                <td style="background:#F0FDF4; font-weight:800; color:#16A34A;">${row[13]}</td>
+                <td style="color:#EF4444;">${row[8]}</td>
+                <td style="background:#F0FDF4; font-weight:800; color:#16A34A;">${row[9]}</td>
+                <td style="text-align:left; color:#64748B;">${row[10] || '-'}</td>
             </tr>
         `).join('');
     }

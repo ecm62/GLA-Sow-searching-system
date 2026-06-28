@@ -127,7 +127,7 @@
 </div>
 
 <script>
-    // ⚠️ 關鍵：已為您嵌入 2026/06/28 下午發布之最新網頁應用程式網址
+    // ⚠️ 已為您置入您最新發布的後端 GAS 應用程式網址
     const API_URL = "https://script.google.com/macros/s/AKfycbyxEagk9aAwxRapIVdkCHoh4aKxEwd0AbOlcYD0u0s9u_Ax2xQe309E5OBZJ3jvvDzjKw/exec"; 
 
     function doSearch() {
@@ -164,8 +164,6 @@
             if (json.historyData && json.historyData.length > 0) {
                 renderHistory(json.historyData);
                 document.getElementById('historyModule').style.display = 'block';
-            } else {
-                console.log("History module returned empty or mismatched dataset.");
             }
         })
         .catch(err => {
@@ -192,6 +190,7 @@
         `).join('');
     }
 
+    // ★ 修正點：這裡就是最新對位的 renderHistory 處理模組，已清除所有干擾文字
     function renderHistory(data) {
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
@@ -199,7 +198,7 @@
         data.forEach(row => {
             const tr = document.createElement('tr');
             
-            // v30.0 嚴格解析後端拋出之 10 個核心實體資料欄位
+            // v30.0 嚴格對齊後端拋出的 10 個實體資料欄位
             const displayCells = [
                 row[0],       // Sow ID
                 row[1],       // Boar ID
@@ -217,7 +216,7 @@
                 const td = document.createElement('td');
                 td.textContent = (cell === undefined || cell === null) ? "-" : cell;
                 
-                // 專業生產報表數據視覺化標記
+                // 生產數據可視化增強
                 if(index === 0) td.style.fontWeight = "800";
                 if(index === 6) td.className = "hl-parity";
                 if(index === 8) { td.style.background = "#F0F9FF"; td.style.fontWeight = "800"; }

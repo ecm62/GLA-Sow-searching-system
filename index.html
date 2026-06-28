@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S Professional v29</title>
+    <title>S.P.T.S Professional v30</title>
     <style>
         /* ==============================
            全域與專業色調鎖定
@@ -68,7 +68,7 @@
         .decision-highlight { background-color: #EFF6FF !important; border-top-color: #10B981 !important; }
 
         /* ==============================
-           歷史紀錄表格 (配合 V29 欄位精準化)
+           歷史紀錄表格 (配合 V30 欄位精準化)
            ============================== */
         #historyModule { display: none; }
         .table-container { 
@@ -92,7 +92,7 @@
     </div>
 
     <div class="search-section">
-        <input type="text" id="tagInput" placeholder="ENTER SOW ID..." onkeypress="if(event.key==='Enter') doSearch()">
+        <input type="text" id="tagInput" placeholder="ENTER SOW ID (e.g., Y1266)..." onkeypress="if(event.key==='Enter') doSearch()">
         <button id="searchBtn" onclick="doSearch()">SEARCH</button>
         <div id="status">System Secure & Ready</div>
     </div>
@@ -127,7 +127,7 @@
 </div>
 
 <script>
-    // ⚠️ 已自動套用您 2026/06/28 下午發布的最新網址
+    // ⚠️ 關鍵：已為您嵌入 2026/06/28 下午發布之最新網頁應用程式網址
     const API_URL = "https://script.google.com/macros/s/AKfycbyxEagk9aAwxRapIVdkCHoh4aKxEwd0AbOlcYD0u0s9u_Ax2xQe309E5OBZJ3jvvDzjKw/exec"; 
 
     function doSearch() {
@@ -164,6 +164,8 @@
             if (json.historyData && json.historyData.length > 0) {
                 renderHistory(json.historyData);
                 document.getElementById('historyModule').style.display = 'block';
+            } else {
+                console.log("History module returned empty or mismatched dataset.");
             }
         })
         .catch(err => {
@@ -182,7 +184,6 @@
             { k: 'cvBirth', L: 'CV Birth' }, { k: 'decision', L: 'Decision', style: 'decision-highlight' }
         ];
         
-        // 修正：移除夾雜的文字，恢復乾淨的渲染邏輯
         grid.innerHTML = fields.map(f => `
             <div class="grade-card ${f.style || ''}">
                 <span class="grade-label">${f.L}</span>
@@ -191,7 +192,6 @@
         `).join('');
     }
 
-    // ★ 修正點：將新版對齊好的 renderHistory 放到這裡，完全取代舊版
     function renderHistory(data) {
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
@@ -199,7 +199,7 @@
         data.forEach(row => {
             const tr = document.createElement('tr');
             
-            // v29.0 嚴格對位實體數據輸出欄位 (10欄)
+            // v30.0 嚴格解析後端拋出之 10 個核心實體資料欄位
             const displayCells = [
                 row[0],       // Sow ID
                 row[1],       // Boar ID
@@ -217,11 +217,9 @@
                 const td = document.createElement('td');
                 td.textContent = (cell === undefined || cell === null) ? "-" : cell;
                 
-                // 數據可視化增強
+                // 專業生產報表數據視覺化標記
                 if(index === 0) td.style.fontWeight = "800";
                 if(index === 6) td.className = "hl-parity";
-                
-                // 調整 Index 以配合 10 欄的著色邏輯
                 if(index === 8) { td.style.background = "#F0F9FF"; td.style.fontWeight = "800"; }
                 if(index === 9) { td.style.background = "#F0FDF4"; td.style.color = "#16A34A"; td.style.fontWeight = "800"; }
                 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S Professional v30</title>
+    <title>S.P.T.S Professional v31</title>
     <style>
         /* ==============================
            全域與專業色調鎖定
@@ -16,7 +16,7 @@
             color: #1E293B; 
         }
         
-        .container { width: 100%; max-width: 1400px; }
+        .container { width: 100%; max-width: 1750px; }
 
         /* 頂部標題 */
         .main-header {
@@ -44,7 +44,7 @@
         #status { font-weight: 600; font-size: 14px; color: #64748B; margin-left: auto; }
 
         /* ==============================
-           性能評級區塊 (4欄位精緻佈局)
+           性能評級區塊
            ============================== */
         #gradeModule { display: none; margin-bottom: 30px; }
         .section-title {
@@ -63,24 +63,26 @@
         }
         .grade-label { display: block; font-size: 12px; color: #64748B; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
         .grade-value { display: block; font-size: 18px; font-weight: 800; color: #1E3A8A; }
-        
-        /* 決策框特殊色 */
         .decision-highlight { background-color: #EFF6FF !important; border-top-color: #10B981 !important; }
 
         /* ==============================
-           歷史紀錄表格 (配合 V30 欄位精準化)
+           歷史紀錄大表 - v31.0 專業資料庫排版
            ============================== */
         #historyModule { display: none; }
         .table-container { 
-            background: white; padding: 10px; border-radius: 12px; 
+            background: white; padding: 12px; border-radius: 12px; 
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow-x: auto; 
         }
-        table { width: 100%; border-collapse: collapse; min-width: 1200px; font-size: 13px; }
-        th { background-color: #F8FAFC; color: #1E3A8A; padding: 12px; border-bottom: 2px solid #E2E8F0; text-align: center; }
-        td { padding: 12px; text-align: center; border-bottom: 1px solid #F1F5F9; color: #334155; }
-        .hl-parity { font-weight: bold; color: #2563EB; }
-
-        @media (max-width: 1024px) { .grade-grid { grid-template-columns: repeat(2, 1fr); } }
+        table { width: 100%; border-collapse: collapse; min-width: 1700px; font-size: 12px; }
+        th { background-color: #1E3A8A; color: #FFFFFF; padding: 10px 6px; border: 1px solid #CBD5E1; text-align: center; font-weight: 700; }
+        td { padding: 10px 6px; text-align: center; border: 1px solid #E2E8F0; color: #334155; }
+        tr:nth-child(even) { background-color: #F8FAFC; }
+        
+        /* 亮色突顯 */
+        .hl-id { font-weight: 800; color: #1E3A8A; background-color: #F0F4FF; }
+        .hl-parity { font-weight: bold; color: #2563EB; background-color: #EFF6FF; }
+        .hl-index { font-weight: bold; color: #047857; background-color: #ECFDF5; }
+        .hl-growth { font-weight: bold; color: #B45309; background-color: #FFFBEB; }
     </style>
 </head>
 <body>
@@ -92,7 +94,7 @@
     </div>
 
     <div class="search-section">
-        <input type="text" id="tagInput" placeholder="ENTER SOW ID (e.g., Y1266)..." onkeypress="if(event.key==='Enter') doSearch()">
+        <input type="text" id="tagInput" placeholder="ENTER SOW ID OR EAR TAG (e.g., Y1266)..." onkeypress="if(event.key==='Enter') doSearch()">
         <button id="searchBtn" onclick="doSearch()">SEARCH</button>
         <div id="status">System Secure & Ready</div>
     </div>
@@ -103,21 +105,16 @@
     </div>
 
     <div id="historyModule">
-        <div class="section-title">II. HISTORICAL GENEALOGY</div>
+        <div class="section-title">II. HISTORICAL GENEALOGY (FULL DATA DEPLOYMENT)</div>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>Sow ID</th>
-                        <th>Boar ID</th>
-                        <th>Mate Week</th>
-                        <th>Mating Date</th>
-                        <th>Wean Wt. (kg)</th>
-                        <th>Farrow Date</th>
-                        <th>Parity</th>
-                        <th>Still Born</th>
-                        <th>Total Born</th>
-                        <th>Born Live</th>
+                        <th>育種總分</th><th>母豬耳號</th><th>曾祖父</th><th>曾外祖母</th><th>高祖母</th>
+                        <th>Week</th><th>配種日期</th><th>分娩日期</th><th>胎次</th><th>白仔</th>
+                        <th>Total Born</th><th>配種公豬</th><th>原始活仔</th><th>離乳重 (kg)</th><th>哺乳天數</th>
+                        <th>SPI Index</th><th>GGP Index</th><th>WSI</th><th>繁殖週期</th><th>PSY</th>
+                        <th>PWS %</th><th>Growth 110</th><th>Growth 130</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -127,7 +124,7 @@
 </div>
 
 <script>
-    // ⚠️ 已為您置入您最新發布的後端 GAS 應用程式網址
+    // ⚠️ 自動鎖定最新發布的後端 GAS 網址
     const API_URL = "https://script.google.com/macros/s/AKfycbyxEagk9aAwxRapIVdkCHoh4aKxEwd0AbOlcYD0u0s9u_Ax2xQe309E5OBZJ3jvvDzjKw/exec"; 
 
     function doSearch() {
@@ -181,7 +178,6 @@
             { k: 'spi', L: 'SPI Index' }, { k: 'ggp', L: 'GGP Index' },
             { k: 'cvBirth', L: 'CV Birth' }, { k: 'decision', L: 'Decision', style: 'decision-highlight' }
         ];
-        
         grid.innerHTML = fields.map(f => `
             <div class="grade-card ${f.style || ''}">
                 <span class="grade-label">${f.L}</span>
@@ -190,7 +186,7 @@
         `).join('');
     }
 
-    // ★ 修正點：這裡就是最新對位的 renderHistory 處理模組，已清除所有干擾文字
+    // ★ v31.0 核心重組模組：承接並渲染後端拋出的 30 個完整實體欄位
     function renderHistory(data) {
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
@@ -198,29 +194,43 @@
         data.forEach(row => {
             const tr = document.createElement('tr');
             
-            // v30.0 嚴格對齊後端拋出的 10 個實體資料欄位
+            // 挑選並映射 GENE 最關鍵的 23 個指標進入大表
             const displayCells = [
-                row[0],       // Sow ID
-                row[1],       // Boar ID
-                `W${row[4]}`,  // Mate Week
-                row[5],       // Mating Date
-                row[6],       // Wean Wt. (kg)
-                row[7],       // Farrow Date
-                `P${row[8]}`,  // Parity
-                row[9],       // Still Born
-                row[10],      // Total Born
-                row[11]       // Born Live
+                row[0],  // 育種總分
+                row[1],  // 母豬耳號
+                row[2],  // 曾祖父
+                row[3],  // 曾外祖母
+                row[4],  // 高祖母
+                `W${row[6]}`, // 周次
+                row[8],  // 配種日期
+                row[9],  // 分娩日期
+                `P${row[12]}`, // 胎次
+                row[13], // 白仔
+                row[14], // Total Born
+                row[17], // 配種公豬
+                row[19], // 原始活仔
+                row[20], // 原始離乳重
+                row[21], // 哺乳天數
+                row[22], // SPI
+                row[23], // GGP
+                row[24], // WSI
+                row[25], // 平均繁殖週期
+                row[26], // PSY
+                row[27], // PWS
+                row[28], // Growth 110
+                row[29]  // Growth 130
             ];
 
             displayCells.forEach((cell, index) => {
                 const td = document.createElement('td');
-                td.textContent = (cell === undefined || cell === null) ? "-" : cell;
+                td.textContent = (cell === undefined || cell === null || cell === "") ? "-" : cell;
                 
-                // 生產數據可視化增強
-                if(index === 0) td.style.fontWeight = "800";
-                if(index === 6) td.className = "hl-parity";
-                if(index === 8) { td.style.background = "#F0F9FF"; td.style.fontWeight = "800"; }
-                if(index === 9) { td.style.background = "#F0FDF4"; td.style.color = "#16A34A"; td.style.fontWeight = "800"; }
+                // 套用專業生產報表的可視化標記
+                if (index === 1) td.className = "hl-id";
+                if (index === 8) td.className = "hl-parity";
+                if (index === 10) td.style.background = "#FFF5F5"; td.style.fontWeight = "bold"; // 強調總產數
+                if (index === 15 || index === 16) td.className = "hl-index";
+                if (index === 21 || index === 22) td.className = "hl-growth";
                 
                 tr.appendChild(td);
             });

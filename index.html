@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S Professional v31</title>
+    <title>S.P.T.S Professional v32</title>
     <style>
         /* ==============================
            全域與專業色調鎖定
@@ -66,7 +66,7 @@
         .decision-highlight { background-color: #EFF6FF !important; border-top-color: #10B981 !important; }
 
         /* ==============================
-           歷史紀錄大表 - v31.0 專業資料庫排版
+           歷史紀錄大表 - v32.0 專業版面
            ============================== */
         #historyModule { display: none; }
         .table-container { 
@@ -78,7 +78,6 @@
         td { padding: 10px 6px; text-align: center; border: 1px solid #E2E8F0; color: #334155; }
         tr:nth-child(even) { background-color: #F8FAFC; }
         
-        /* 亮色突顯 */
         .hl-id { font-weight: 800; color: #1E3A8A; background-color: #F0F4FF; }
         .hl-parity { font-weight: bold; color: #2563EB; background-color: #EFF6FF; }
         .hl-index { font-weight: bold; color: #047857; background-color: #ECFDF5; }
@@ -124,7 +123,7 @@
 </div>
 
 <script>
-    // ⚠️ 自動鎖定最新發布的後端 GAS 網址
+    // 自動鎖定您最新發布的後端 GAS 網址
     const API_URL = "https://script.google.com/macros/s/AKfycbyxEagk9aAwxRapIVdkCHoh4aKxEwd0AbOlcYD0u0s9u_Ax2xQe309E5OBZJ3jvvDzjKw/exec"; 
 
     function doSearch() {
@@ -161,6 +160,9 @@
             if (json.historyData && json.historyData.length > 0) {
                 renderHistory(json.historyData);
                 document.getElementById('historyModule').style.display = 'block';
+            } else {
+                statusDiv.style.color = "#EF4444";
+                statusDiv.textContent = "Grade Found, but GENE database has no history.";
             }
         })
         .catch(err => {
@@ -186,49 +188,27 @@
         `).join('');
     }
 
-    // ★ v31.0 核心重組模組：承接並渲染後端拋出的 30 個完整實體欄位
     function renderHistory(data) {
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
         
         data.forEach(row => {
             const tr = document.createElement('tr');
-            
-            // 挑選並映射 GENE 最關鍵的 23 個指標進入大表
             const displayCells = [
-                row[0],  // 育種總分
-                row[1],  // 母豬耳號
-                row[2],  // 曾祖父
-                row[3],  // 曾外祖母
-                row[4],  // 高祖母
-                `W${row[6]}`, // 周次
-                row[8],  // 配種日期
-                row[9],  // 分娩日期
-                `P${row[12]}`, // 胎次
-                row[13], // 白仔
-                row[14], // Total Born
-                row[17], // 配種公豬
-                row[19], // 原始活仔
-                row[20], // 原始離乳重
-                row[21], // 哺乳天數
-                row[22], // SPI
-                row[23], // GGP
-                row[24], // WSI
-                row[25], // 平均繁殖週期
-                row[26], // PSY
-                row[27], // PWS
-                row[28], // Growth 110
-                row[29]  // Growth 130
+                row[0],  row[1],  row[2],  row[3],  row[4],
+                `W${row[6]}`, row[8],  row[9],  `P${row[12]}`, row[13],
+                row[14], row[17], row[19], row[20], row[21],
+                row[22], row[23], row[24], row[25], row[26],
+                row[27], row[28], row[29]
             ];
 
             displayCells.forEach((cell, index) => {
                 const td = document.createElement('td');
-                td.textContent = (cell === undefined || cell === null || cell === "") ? "-" : cell;
+                td.textContent = (cell === undefined || cell === null || cell === "" || cell === "W-") ? "-" : cell;
                 
-                // 套用專業生產報表的可視化標記
                 if (index === 1) td.className = "hl-id";
                 if (index === 8) td.className = "hl-parity";
-                if (index === 10) td.style.background = "#FFF5F5"; td.style.fontWeight = "bold"; // 強調總產數
+                if (index === 10) { td.style.backgroundColor = "#FFF5F5"; td.style.fontWeight = "bold"; }
                 if (index === 15 || index === 16) td.className = "hl-index";
                 if (index === 21 || index === 22) td.className = "hl-growth";
                 

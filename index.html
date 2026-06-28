@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S Professional v33</title>
+    <title>S.P.T.S Professional v34</title>
     <style>
-        /* ==============================
-           全域與專業色調鎖定
-           ============================== */
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             background-color: #F1F5F9; 
@@ -15,18 +12,13 @@
             display: flex; flex-direction: column; align-items: center; 
             color: #1E293B; 
         }
-        
         .container { width: 100%; max-width: 1750px; }
-
-        /* 頂部標題 */
         .main-header {
             text-align: center; color: #FFFFFF; padding: 25px;
             background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
             border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
             margin-bottom: 25px;
         }
-        
-        /* 搜尋區 */
         .search-section { 
             background: white; padding: 20px; border-radius: 12px; 
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
@@ -43,31 +35,20 @@
         button:hover { background: #1E40AF; transform: translateY(-1px); }
         #status { font-weight: 600; font-size: 14px; color: #64748B; margin-left: auto; }
 
-        /* ==============================
-           性能評級區塊
-           ============================== */
         #gradeModule { display: none; margin-bottom: 30px; }
         .section-title {
             border-left: 6px solid #1E3A8A; padding-left: 15px;
             color: #1E3A8A; font-weight: 800; font-size: 20px; margin-bottom: 15px;
         }
-        .grade-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 15px;
-        }
+        .grade-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
         .grade-card {
             background: white; padding: 15px; border-radius: 10px;
-            text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border-top: 4px solid #3B82F6;
+            text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-top: 4px solid #3B82F6;
         }
         .grade-label { display: block; font-size: 12px; color: #64748B; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
         .grade-value { display: block; font-size: 18px; font-weight: 800; color: #1E3A8A; }
         .decision-highlight { background-color: #EFF6FF !important; border-top-color: #10B981 !important; }
 
-        /* ==============================
-           歷史紀錄大表 - v33.0 專業版面
-           ============================== */
         #historyModule { display: none; }
         .table-container { 
             background: white; padding: 12px; border-radius: 12px; 
@@ -93,7 +74,7 @@
     </div>
 
     <div class="search-section">
-        <input type="text" id="tagInput" placeholder="ENTER SOW ID OR EAR TAG (e.g., Y1266)..." onkeypress="if(event.key==='Enter') doSearch()">
+        <input type="text" id="tagInput" placeholder="ENTER SOW ID (e.g., Y1266)..." onkeypress="if(event.key==='Enter') doSearch()">
         <button id="searchBtn" onclick="doSearch()">SEARCH</button>
         <div id="status">System Secure & Ready</div>
     </div>
@@ -104,7 +85,7 @@
     </div>
 
     <div id="historyModule">
-        <div class="section-title">II. HISTORICAL GENEALOGY (FULL DATA DEPLOYMENT)</div>
+        <div class="section-title">II. HISTORICAL GENEALOGY (CASCADE DATA DEPLOYMENT)</div>
         <div class="table-container">
             <table>
                 <thead>
@@ -123,7 +104,6 @@
 </div>
 
 <script>
-    // 自動鎖定您最新發布的後端 GAS 網址
     const API_URL = "https://script.google.com/macros/s/AKfycbyxEagk9aAwxRapIVdkCHoh4aKxEwd0AbOlcYD0u0s9u_Ax2xQe309E5OBZJ3jvvDzjKw/exec"; 
 
     function doSearch() {
@@ -135,7 +115,7 @@
         
         btn.disabled = true;
         statusDiv.style.color = "#EAB308";
-        statusDiv.textContent = "Connecting to Data Warehouse...";
+        statusDiv.textContent = "Querying Database Warehouse...";
         
         document.getElementById('gradeModule').style.display = 'none';
         document.getElementById('historyModule').style.display = 'none';
@@ -151,7 +131,7 @@
             }
 
             statusDiv.style.color = "#10B981";
-            statusDiv.textContent = "Data Successfully Verified.";
+            statusDiv.textContent = "Data Matrix Restructured.";
 
             if (json.gradeData) {
                 renderGrade(json.gradeData);
@@ -162,7 +142,7 @@
                 document.getElementById('historyModule').style.display = 'block';
             } else {
                 statusDiv.style.color = "#EF4444";
-                statusDiv.textContent = "Grade Found, but GENE database matrix has no history match.";
+                statusDiv.textContent = "Grade Found, but GENE row fill has no rows.";
             }
         })
         .catch(err => {
@@ -204,7 +184,7 @@
 
             displayCells.forEach((cell, index) => {
                 const td = document.createElement('td');
-                td.textContent = (cell === undefined || cell === null || cell === "" || cell === "W-") ? "-" : cell;
+                td.textContent = (cell === undefined || cell === null || cell === "" || cell === "W-" || cell === "P-") ? "-" : cell;
                 
                 if (index === 1) td.className = "hl-id";
                 if (index === 8) td.className = "hl-parity";

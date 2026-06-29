@@ -3,57 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S Professional v34</title>
+    <title>S.P.T.S Professional v36</title>
     <style>
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #F1F5F9; 
-            padding: 20px; margin: 0; 
-            display: flex; flex-direction: column; align-items: center; 
-            color: #1E293B; 
+            background-color: #F1F5F9; padding: 20px; margin: 0; 
+            display: flex; flex-direction: column; align-items: center; color: #1E293B; 
         }
         .container { width: 100%; max-width: 1750px; }
         .main-header {
             text-align: center; color: #FFFFFF; padding: 25px;
             background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
-            border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
+            border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-bottom: 25px;
         }
         .search-section { 
             background: white; padding: 20px; border-radius: 12px; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
-            display: flex; align-items: center; gap: 15px; margin-bottom: 25px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; margin-bottom: 25px; 
         }
-        input { 
-            padding: 12px 15px; font-size: 16px; flex: 1; 
-            border: 1px solid #CBD5E1; border-radius: 8px; text-transform: uppercase;
-        }
-        button { 
-            padding: 12px 25px; background: #1E3A8A; color: white; 
-            border: none; cursor: pointer; font-weight: bold; border-radius: 8px; transition: 0.3s;
-        }
+        input { padding: 12px 15px; font-size: 16px; flex: 1; border: 1px solid #CBD5E1; border-radius: 8px; text-transform: uppercase; }
+        button { padding: 12px 25px; background: #1E3A8A; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 8px; transition: 0.3s; }
         button:hover { background: #1E40AF; transform: translateY(-1px); }
         #status { font-weight: 600; font-size: 14px; color: #64748B; margin-left: auto; }
 
         #gradeModule { display: none; margin-bottom: 30px; }
-        .section-title {
-            border-left: 6px solid #1E3A8A; padding-left: 15px;
-            color: #1E3A8A; font-weight: 800; font-size: 20px; margin-bottom: 15px;
-        }
+        .section-title { border-left: 6px solid #1E3A8A; padding-left: 15px; color: #1E3A8A; font-weight: 800; font-size: 20px; margin-bottom: 15px; }
         .grade-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        .grade-card {
-            background: white; padding: 15px; border-radius: 10px;
-            text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-top: 4px solid #3B82F6;
-        }
+        .grade-card { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-top: 4px solid #3B82F6; }
         .grade-label { display: block; font-size: 12px; color: #64748B; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
         .grade-value { display: block; font-size: 18px; font-weight: 800; color: #1E3A8A; }
         .decision-highlight { background-color: #EFF6FF !important; border-top-color: #10B981 !important; }
 
         #historyModule { display: none; }
-        .table-container { 
-            background: white; padding: 12px; border-radius: 12px; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow-x: auto; 
-        }
+        .table-container { background: white; padding: 12px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 1700px; font-size: 12px; }
         th { background-color: #1E3A8A; color: #FFFFFF; padding: 10px 6px; border: 1px solid #CBD5E1; text-align: center; font-weight: 700; }
         td { padding: 10px 6px; text-align: center; border: 1px solid #E2E8F0; color: #334155; }
@@ -85,7 +66,7 @@
     </div>
 
     <div id="historyModule">
-        <div class="section-title">II. HISTORICAL GENEALOGY (CASCADE DATA DEPLOYMENT)</div>
+        <div class="section-title">II. HISTORICAL GENEALOGY (INTEGRATED DATA STREAM)</div>
         <div class="table-container">
             <table>
                 <thead>
@@ -142,7 +123,7 @@
                 document.getElementById('historyModule').style.display = 'block';
             } else {
                 statusDiv.style.color = "#EF4444";
-                statusDiv.textContent = "Grade Found, but GENE row fill has no rows.";
+                statusDiv.textContent = "Grade Verified, but no historical match found in GENE stream.";
             }
         })
         .catch(err => {
@@ -174,6 +155,7 @@
         
         data.forEach(row => {
             const tr = document.createElement('tr');
+            // 完整解耦映射 23 個綜合大表指標
             const displayCells = [
                 row[0],  row[1],  row[2],  row[3],  row[4],
                 `W${row[6]}`, row[8],  row[9],  `P${row[12]}`, row[13],
@@ -184,6 +166,7 @@
 
             displayCells.forEach((cell, index) => {
                 const td = document.createElement('td');
+                // 容錯清洗，避免出現未定義字串
                 td.textContent = (cell === undefined || cell === null || cell === "" || cell === "W-" || cell === "P-") ? "-" : cell;
                 
                 if (index === 1) td.className = "hl-id";

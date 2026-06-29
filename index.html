@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.T.S Professional v36</title>
+    <title>S.P.T.S Professional v39</title>
     <style>
+        /* ==============================
+           Global Professional Theme Locking
+           ============================== */
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #F1F5F9; padding: 20px; margin: 0; 
-            display: flex; flex-direction: column; align-items: center; color: #1E293B; 
+            background-color: #F8FAFC; padding: 25px; margin: 0; 
+            display: flex; flex-direction: column; align-items: center; color: #0F172A; 
         }
         .container { width: 100%; max-width: 1750px; }
         .main-header {
             text-align: center; color: #FFFFFF; padding: 25px;
-            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+            background: linear-gradient(135deg, #1E3A8A 0%, #0284C7 100%);
             border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-bottom: 25px;
         }
         .search-section { 
@@ -28,19 +31,23 @@
         #gradeModule { display: none; margin-bottom: 30px; }
         .section-title { border-left: 6px solid #1E3A8A; padding-left: 15px; color: #1E3A8A; font-weight: 800; font-size: 20px; margin-bottom: 15px; }
         .grade-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        .grade-card { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-top: 4px solid #3B82F6; }
+        .grade-card { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-top: 4px solid #0284C7; }
         .grade-label { display: block; font-size: 12px; color: #64748B; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
         .grade-value { display: block; font-size: 18px; font-weight: 800; color: #1E3A8A; }
-        .decision-highlight { background-color: #EFF6FF !important; border-top-color: #10B981 !important; }
+        .decision-highlight { background-color: #F0F9FF !important; border-top-color: #10B981 !important; }
 
+        /* ==============================
+           Advanced Balanced Production Matrix
+           ============================== */
         #historyModule { display: none; }
-        .table-container { background: white; padding: 12px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 1700px; font-size: 12px; }
-        th { background-color: #1E3A8A; color: #FFFFFF; padding: 10px 6px; border: 1px solid #CBD5E1; text-align: center; font-weight: 700; }
-        td { padding: 10px 6px; text-align: center; border: 1px solid #E2E8F0; color: #334155; }
+        .table-container { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 1700px; font-size: 12px; table-layout: fixed; }
+        th { background-color: #1E3A8A; color: #FFFFFF; padding: 12px 4px; border: 1px solid #CBD5E1; text-align: center; font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+        td { padding: 12px 4px; text-align: center; border: 1px solid #E2E8F0; color: #334155; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         tr:nth-child(even) { background-color: #F8FAFC; }
+        tr:hover { background-color: #F1F5F9; }
         
-        .hl-id { font-weight: 800; color: #1E3A8A; background-color: #F0F4FF; }
+        .hl-id { font-weight: 800; color: #1E3A8A; background-color: #EFF6FF; }
         .hl-parity { font-weight: bold; color: #2563EB; background-color: #EFF6FF; }
         .hl-index { font-weight: bold; color: #047857; background-color: #ECFDF5; }
         .hl-growth { font-weight: bold; color: #B45309; background-color: #FFFBEB; }
@@ -51,7 +58,7 @@
 <div class="container">
     <div class="main-header">
         <h1>S.P.T.S SOW PERFORMANCE TRACKING</h1>
-        <p style="opacity: 0.8; font-size: 14px; font-weight: 500;">Bilingual Professional Management System</p>
+        <p style="opacity: 0.9; font-size: 14px; font-weight: 500; letter-spacing: 1px;">Professional Architecture for Decoupled Merged Databases</p>
     </div>
 
     <div class="search-section">
@@ -66,16 +73,33 @@
     </div>
 
     <div id="historyModule">
-        <div class="section-title">II. HISTORICAL GENEALOGY (INTEGRATED DATA STREAM)</div>
+        <div class="section-title">II. HISTORICAL PRODUCTION GENEALOGY (STRICTLY LOCKED EXPORT)</div>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>育種總分</th><th>母豬耳號</th><th>曾祖父</th><th>曾外祖母</th><th>高祖母</th>
-                        <th>Week</th><th>配種日期</th><th>分娩日期</th><th>胎次</th><th>白仔</th>
-                        <th>Total Born</th><th>配種公豬</th><th>原始活仔</th><th>離乳重 (kg)</th><th>哺乳天數</th>
-                        <th>SPI Index</th><th>GGP Index</th><th>WSI</th><th>繁殖週期</th><th>PSY</th>
-                        <th>PWS %</th><th>Growth 110</th><th>Growth 130</th>
+                        <th style="width: 5.5%;">Breeding Score</th>
+                        <th style="width: 5%;">Sow ID</th>
+                        <th style="width: 5.5%;">Grandsire</th>
+                        <th style="width: 5.5%;">Granddam</th>
+                        <th style="width: 4%;">Week Num</th>
+                        <th style="width: 5.5%;">Mating Date</th>
+                        <th style="width: 5.5%;">Farrowing Date</th>
+                        <th style="width: 3.5%;">Parity</th>
+                        <th style="width: 4.5%;">Stillborn (SB)</th>
+                        <th style="width: 4.5%;">Total Born (TB)</th>
+                        <th style="width: 5%;">Boar Mated</th>
+                        <th style="width: 4.5%;">Born Alive (NBA)</th>
+                        <th style="width: 4.5%;">Wean Wt (kg)</th>
+                        <th style="width: 4.5%;">Lactation Days</th>
+                        <th style="width: 4.5%;">SPI Index</th>
+                        <th style="width: 4.5%;">GGP Index</th>
+                        <th style="width: 4.5%;">WSI Interval</th>
+                        <th style="width: 4.5%;">Repro Cycle</th>
+                        <th style="width: 4.5%;">PSY Metric</th>
+                        <th style="width: 4.5%;">PWS Rate (%)</th>
+                        <th style="width: 4.5%;">Growth 110</th>
+                        <th style="width: 4.5%;">Growth 130</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -85,6 +109,7 @@
 </div>
 
 <script>
+    // 您最新發布的穩定版後端大腦網址
     const API_URL = "https://script.google.com/macros/s/AKfycbyxEagk9aAwxRapIVdkCHoh4aKxEwd0AbOlcYD0u0s9u_Ax2xQe309E5OBZJ3jvvDzjKw/exec"; 
 
     function doSearch() {
@@ -96,7 +121,7 @@
         
         btn.disabled = true;
         statusDiv.style.color = "#EAB308";
-        statusDiv.textContent = "Querying Database Warehouse...";
+        statusDiv.textContent = "Querying Central Data Warehouse...";
         
         document.getElementById('gradeModule').style.display = 'none';
         document.getElementById('historyModule').style.display = 'none';
@@ -112,7 +137,7 @@
             }
 
             statusDiv.style.color = "#10B981";
-            statusDiv.textContent = "Data Matrix Restructured.";
+            statusDiv.textContent = "Matrix Cleansed & Extructured.";
 
             if (json.gradeData) {
                 renderGrade(json.gradeData);
@@ -123,13 +148,13 @@
                 document.getElementById('historyModule').style.display = 'block';
             } else {
                 statusDiv.style.color = "#EF4444";
-                statusDiv.textContent = "Grade Verified, but no historical match found in GENE stream.";
+                statusDiv.textContent = "Query Complete. Mating module lacks history rows.";
             }
         })
         .catch(err => {
             btn.disabled = false;
             statusDiv.style.color = "#EF4444";
-            statusDiv.textContent = "Network Error: Check GAS Deployment Access.";
+            statusDiv.textContent = "Network Error: Check Server Deployment Status.";
         });
     }
 
@@ -141,12 +166,23 @@
             { k: 'spi', L: 'SPI Index' }, { k: 'ggp', L: 'GGP Index' },
             { k: 'cvBirth', L: 'CV Birth' }, { k: 'decision', L: 'Decision', style: 'decision-highlight' }
         ];
-        grid.innerHTML = fields.map(f => `
-            <div class="grade-card ${f.style || ''}">
-                <span class="grade-label">${f.L}</span>
-                <span class="grade-value">${data[f.k] || '-'}</span>
-            </div>
-        `).join('');
+        grid.innerHTML = fields.map(f => {
+            let val = data[f.k];
+            
+            // 鐵腕防呆：如果是負數、錯誤代碼或為0的無效值，一律空下來
+            if (val === undefined || val === null || String(val).trim() === "" || String(val).indexOf('-') !== -1 || val === "0" || val === 0 || val === "0.0") {
+                val = "";
+            } else if (!isNaN(val) && f.k !== 'sowId' && f.k !== 'parity') {
+                val = parseFloat(val).toFixed(1);
+            }
+            
+            return `
+                <div class="grade-card ${f.style || ''}">
+                    <span class="grade-label">${f.L}</span>
+                    <span class="grade-value">${val}</span>
+                </div>
+            `;
+        }).join('');
     }
 
     function renderHistory(data) {
@@ -155,25 +191,59 @@
         
         data.forEach(row => {
             const tr = document.createElement('tr');
-            // 完整解耦映射 23 個綜合大表指標
+            
+            // 🧪 博士級生產級數據清洗大師核心：排除一切負數、公式錯誤與 0 值的空置處理
+            const cleanCell = (val, isDecimal) => {
+                if (val === undefined || val === null) return "";
+                let strVal = String(val).trim().toUpperCase();
+                
+                // 鐵腕攔截所有物理死角：負數、空白、錯誤符號
+                if (strVal === "" || strVal === "-" || strVal === "0" || strVal === "0.0" || strVal.indexOf('-') !== -1 || strVal.indexOf('#REF') !== -1 || strVal.indexOf('NULL') !== -1) {
+                    return "";
+                }
+                
+                if (isDecimal && !isNaN(val)) return parseFloat(val).toFixed(1);
+                if (!isNaN(val) && strVal.indexOf('.') !== -1 && !isNaN(parseFloat(val))) return parseFloat(val).toFixed(1);
+                return val;
+            };
+
+            // ⚠️ 物理層解耦：跳過高祖母 row[4]，精確鎖定並僅輸出這 22 個項目的實體數值矩陣
             const displayCells = [
-                row[0],  row[1],  row[2],  row[3],  row[4],
-                `W${row[6]}`, row[8],  row[9],  `P${row[12]}`, row[13],
-                row[14], row[17], row[19], row[20], row[21],
-                row[22], row[23], row[24], row[25], row[26],
-                row[27], row[28], row[29]
+                cleanCell(row[0], false),  // Breeding Score
+                cleanCell(row[1], false),  // Sow ID
+                cleanCell(row[2], false),  // Grandsire
+                cleanCell(row[3], false),  // Granddam
+                cleanCell(row[6], false) !== "" ? `W${cleanCell(row[6], false)}` : "", // Week Num
+                cleanCell(row[8], false),  // Mating Date
+                cleanCell(row[9], false),  // Farrowing Date
+                cleanCell(row[12], false) !== "" ? `P${cleanCell(row[12], false)}` : "", // Parity
+                cleanCell(row[13], false), // Stillborn (SB)
+                cleanCell(row[14], false), // Total Born (TB)
+                cleanCell(row[17], false), // Boar Mated
+                cleanCell(row[19], false), // Born Alive (NBA)
+                cleanCell(row[20], true),  // Wean Wt
+                cleanCell(row[21], false), // Lactation Days
+                cleanCell(row[22], true),  // SPI Index
+                cleanCell(row[23], true),  // GGP Index
+                cleanCell(row[24], false), // WSI Interval
+                cleanCell(row[25], false), // Repro Cycle
+                cleanCell(row[26], true),  // PSY Metric
+                cleanCell(row[27], false), // PWS Rate
+                cleanCell(row[28], false), // Growth 110
+                cleanCell(row[29], false)  // Growth 130
             ];
 
             displayCells.forEach((cell, index) => {
                 const td = document.createElement('td');
-                // 容錯清洗，避免出現未定義字串
-                td.textContent = (cell === undefined || cell === null || cell === "" || cell === "W-" || cell === "P-") ? "-" : cell;
+                // 再次清空字串漏洞
+                td.textContent = (cell === "W-" || cell === "P-" || cell === "W" || cell === "P") ? "" : cell;
                 
+                // 生產看板視覺美化增強
                 if (index === 1) td.className = "hl-id";
-                if (index === 8) td.className = "hl-parity";
-                if (index === 10) { td.style.backgroundColor = "#FFF5F5"; td.style.fontWeight = "bold"; }
-                if (index === 15 || index === 16) td.className = "hl-index";
-                if (index === 21 || index === 22) td.className = "hl-growth";
+                if (index === 7) td.className = "hl-parity";
+                if (index === 9 && td.textContent !== "") { td.style.backgroundColor = "#FEF2F2"; td.style.fontWeight = "bold"; td.style.color = "#991B1B"; } // 強調產仔總數
+                if (index === 14 || index === 15) td.className = "hl-index";
+                if (index === 20 || index === 21) td.className = "hl-growth";
                 
                 tr.appendChild(td);
             });
